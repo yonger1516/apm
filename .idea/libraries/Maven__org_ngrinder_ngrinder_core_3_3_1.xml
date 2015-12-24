@@ -1,0 +1,23 @@
+<component name="libraryTable">
+  <library name="Maven: org.ngrinder:ngrinder-core:3.3.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/ngrinder/ngrinder-core/3.3.1/ngrinder-core-3.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/ngrinder/ngrinder-core/3.3.1/ngrinder-core-3.3.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/ngrinder/ngrinder-core/3.3.1/ngrinder-core-3.3.1-sources.jar!/" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-controller/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-controller/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-core/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-core/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-groovy/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-groovy/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-runtime/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-runtime/src/test/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-starter/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../ngrinder/ngrinder-starter/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

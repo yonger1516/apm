@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="-1">
+	<#include "../common/common.htm">
+	<#include "../common/jqplot.htm">
+	<title><@spring.message "perfTest.title"/></title>
+	<link href="/css/slider.css" rel="stylesheet">
+	<link href="/plugins/datepicker/css/datepicker.css" rel="stylesheet"/>
+
+	<style>
+	.popover {
+		max-height: 500px;
+		overflow-y: scroll;
+	}
+	
+	.select-item {
+		width: 60px;
+	}
+
+	.control-label input {
+		vertical-align: top;
+		margin-left: 2px
+	}
+
+	li.monitor-state {
+		height: 10px;
+	}
+	.controls code {
+		vertical-align: middle;
+	}
+
+	.datepicker {
+		z-index:1151;
+	}
+
+	div.chart {
+		border: 1px solid #878988;
+		margin-bottom: 12px;
+	}
+
+	div.modal-body div.chart {
+		border:1px solid #878988; 
+		height:250px; 
+		min-width:500px; 
+		margin-bottom:12px; 
+		padding:5px 
+	}
+
+	.table thead th {
+		vertical-align: middle;
+	}
+
+	.jqplot-yaxis {
+		margin-right: 20px;
+	}
+
+	.jqplot-xaxis {
+		margin-top: 5px;
+	} 
+
+	.rampup-chart {
+		width: 400px;
+		height: 300px
+	}
+
+	div.div-host {
+		border: 1px solid #D6D6D6;
+		height: 50px;
+		margin-bottom: 8px;
+		overflow-y: scroll;
+		border-radius: 3px 3px 3px 3px;
+	}
+
+	div.div-host .host {
+		color: #666666;
+		display: inline-block;
+		margin-left: 7px;
+		margin-top: 2px;
+		margin-bottom: 2px;
+	}
+
+    .add-host-btn {
+        margin-top:27px;
+        margin-left:287px;
+        position:absolute
+    }
+
+	i.expand {
+        background: url('/img/icon_expand.png') no-repeat;
+        display: inline-block;
+		height: 16px;
+		width: 16px;
+		line-height: 16px;
+		vertical-align: text-top;
+	}
+
+	i.collapse{
+        background: url('/img/icon_collapse.png') no-repeat;
+        display: inline-block;
+		height: 16px;
+		width: 16px;
+		line-height: 16px;
+		vertical-align: text-top;
+	}
+
+	#test_name + span {
+		float: left;
+	}
+
+	#query_div label {
+		width: 100px;
+	}
+
+	.form-horizontal .control-group {
+		margin-bottom:10px;
+	}
+
+	.controls .span3 {
+		margin-left: 0;
+	}
+
+	.control-group.success td > label[for="test_name"] {
+		color: #468847;
+	}
+
+	.control-group.error td > label[for="test_name"] {
+		color: #B94A48;
+	}
+
+	#script_control.error .select2-choice {
+		border-color: #B94A48;
+		color: #B94A48;
+	}
+
+	#script_control.success .select2-choice {
+		border-color: #468847;
+		color: #468847;
+	}
+
+	legend {
+		padding-top: 10px;
+	}
+
+	label.region {
+		margin-left:-40px;
+	}
+
+	.span4-5 {
+		width: 340px;
+	}
+	.span3-4 {
+		width: 260px;
+	}
+	.span2-3 {
+		width: 180px;
+	}
+	</style>
+
+</head>
+
+<body>
+<div id="wrap">
+	<div class="container">
+		<form id="test_config_form" name="test_config_form" action="/perftest/new"  method="POST">
+			<div class="well" style="margin-bottom: 5px;margin-top:0">
+				<input type="hidden" id="test_id" name="id" value="${(test.id)!}">
+				<div class="form-horizontal" id="query_div">
+					<fieldset>
+						<div class="control-group">
+							<div class="row">
+
+								<div class="span1">
+									<#if test.id??>
+										<img id="test_status_img" class="ball" 
+										src="/img/ball/${test.status.iconName}"
+										rel='popover'
+										data-html='true'
+										data-content='${"${test.progressMessage}<br/><b>${test.lastProgressMessage}</b>"?replace('\n', '<br>')?html}'  
+										title="<@spring.message "${test.status.springMessageKey}"/>"
+										data-placement='bottom'
+										/>
+									</#if>
+								</div>
+							</div>
+						</div>
+						<!--<div class="control-group" style="margin-bottom: 0">
+							<label for="description" class="control-label"><@spring.message "common.label.description"/></label>
+							<div class="controls" style="margin-left: 120px;">
+								<textarea id="description" name="description" style="resize: none; width:751px; height:36px">${(test.description)!""}</textarea>
+							</div>
+						</div>-->
+					</fieldset>
+				</div>
+			</div>
+			<!-- end well -->
+
+			<div class="tabbable" style="margin-top: 0;margin-bottom: 50px">
+				<ul class="nav nav-tabs" id="homeTab" style="margin-bottom: 5px">
+					<li id="running_section_tab">
+						<a href="#running_section" data-toggle="tab" id="running_section_btn">
+							<@spring.message "perfTest.running.title"/>
+						</a>
+					</li>
+
+					<li id="report_section_tab" style="display: none; ">
+						<a href="#report_section" data-toggle="tab" id="report_btn">
+							<@spring.message "perfTest.report.tab"/>
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+
+					<div class="tab-pane" id="report_section">
+					</div>
+
+					<div class="tab-pane" id="running_section">
+						<#include "running.htm"/>
+					</div>
+				</div>
+				<!-- end tab content -->
+			</div>
+			<!-- end tabbable -->
+			<#if test.id??>
+				<input type="hidden" id="test_status" name="status" value="${(test.status)}">
+				<input type="hidden" id="test_status_type" name="statusType" value="${(test.status.category)}"> 
+			<#else>
+				<input type="hidden" id="test_status" name="status" value="SAVED">
+			</#if>
+		</form>
+	</div>
+	<!--end container-->
+
+	<div class="modal hide fade" id="schedule_modal">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">&times;</a>
+			<h4>
+				<@spring.message "perfTest.running.scheduleTitle"/>
+			</h4>
+		</div>
+		<div class="modal-body">
+			<div class="form-horizontal">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label"><@spring.message "perfTest.running.schedule"/></label>
+						<div class="controls form-inline">
+							<input type="text" class="input span2" id="scheduled_date" value="" readyonly>&nbsp; 
+							<select id="scheduled_hour" class="select-item"></select> : <select id="scheduled_min" class="select-item"></select>
+							<code>HH:MM</code>
+							<div class="help-inline" class="margin-left:30px"></div>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a class="btn btn-primary" id="run_now_btn"><@spring.message "perfTest.running.runNow"/></a> <a class="btn btn-primary" id="add_schedule_btn"><@spring.message "perfTest.running.schedule"/></a>
+		</div>
+	</div>
+	<#include "host_modal.htm">
+</div>
+
+<script src="/plugins/datepicker/js/bootstrap-datepicker.js"></script>
+<script src="/js/bootstrap-slider.min.js"></script>
+<script src="/js/ramp_up.js"></script>
+<script>
+
+var objTimer;
+var durationMap = [];
+
+var testId = $('#test_id').val();
+
+$(document).ready(function () {
+	$.ajaxSetup({
+		cache : false //close AJAX cache
+	});
+
+	$("#sample_tab").find("a:first").tab('show');
+	$("#running_section_tab").find("a").tab('show');
+
+	bindEvent();
+
+<#assign category = test.status.category>
+<#if category == "TESTING">
+	displayConfigAndRunningSection();
+<#elseif category == "FINISHED" || category == "STOP" || category == "ERROR">
+	finished = true;
+	displayConfigAndReportSection();
+<#else>
+	displayConfigOnly();
+</#if>
+
+	(function refreshContent() {
+		if (!testId || finished == true) {
+			return;
+		}
+		var ajaxObj = new AjaxObj("/test/api/{testId}/status");
+		ajaxObj.params = { testId : "${test.id!""}"};
+		ajaxObj.success = function(data) {
+			data = eval(data);
+			data = data.status;
+			for ( var i = 0; i < data.length; i++) {
+				//noinspection JSUnresolvedVariable
+                updateStatus(data[i].id, data[i].status_type, data[i].name, data[i].icon, data[i].deletable, data[i].stoppable, data[i].message);
+			}
+		};
+		ajaxObj.complete = function() {
+			setTimeout(refreshContent, 3000);
+		};
+		ajaxObj.call();
+	})();
+});
+
+function bindEvent() {
+
+	$("#report_btn").click(function() {
+		$("#footer").hide();
+		openReportDiv(function() {
+			$("#footer").show();
+		});
+	});
+
+	$("#sample_tab").find("a").click(function(e) {
+		e.preventDefault();
+		$(this).tab('show');
+	});
+
+	$(document).ajaxSend(function(e, xhr, settings) {
+		var url = settings.url;
+		if ((url.indexOf("resource") > 0 || url.indexOf("script") > 0)) {
+			showProgressBar("<@spring.message "perfTest.message.updateResource"/>");
+		}
+	});
+
+}
+
+function openRunningDiv(onFinishHook) {
+	$("#running_section").load("/test/${(test.id!0)?c}/running_div",
+		function() {
+			if (onFinishHook !== undefined) {
+				onFinishHook();
+			}
+		}
+	);
+}
+
+
+function openReportDiv(onFinishHook) {
+	$("#report_section").load("/test/${(test.id!0)?c}/basic_report?imgWidth=600",
+		function() {
+			if (onFinishHook !== undefined) {
+				onFinishHook();
+			}
+		}
+	);
+}
+
+//noinspection JSUnusedLocalSymbols
+function updateStatus(id, statusType, statusName, icon, deletable, stoppable, message) {
+	var $testStatusImg = $("#test_status_img");
+	if ($testStatusImg.attr("data-content") != message) {
+		$testStatusImg.attr("data-content", message);
+	}
+	var $testStatusType = $("#test_status_type");
+	if ($testStatusType.val() == statusType) {
+		return;
+	}
+	var testStatusImgPopover = $testStatusImg.data('popover');
+	$testStatusImg.attr("data-original-title", statusName);
+	testStatusImgPopover.options.content = message;
+	$testStatusType.val(statusType);
+
+	if ($testStatusImg.attr("src") != "/img/ball/" + icon) {
+		$testStatusImg.attr("src", "/img/ball/" + icon);
+	}
+	if (isRunningStatusType(statusType)) {
+		displayConfigAndRunningSection();
+	} else if (isFinishedStatusType(statusType)) {
+		finished = true; 
+		// Wait and run because it takes time to transfer logs.
+		setTimeout('displayConfigAndReportSection()', 3000);
+	} else {
+		displayConfigOnly();
+	}
+}
+
+var finished = false;
+var testId = $('#test_id').val();
+// Wrap this function in a closure so we don't pollute the namespace
+function displayConfigOnly() {
+    $("#test_config_section_tab").find("a").tab('show');
+    $("#running_section_tab").hide();
+    $("#report_section_tab").hide();
+}
+
+
+var samplingInterval = 1;
+
+var $reportSectionTab = $("#report_section_tab");
+var $runningSectionTab = $("#running_section_tab");
+
+function displayConfigAndRunningSection() {
+    $runningSectionTab.show();
+    $runningSectionTab.find("a").tab('show');
+    $("#running_section").show();
+    $("#report_section_tab").hide();
+    openRunningDiv(function() {
+		$("#foot_div").show();
+	});
+}
+
+function displayConfigAndReportSection() {
+    $("#foot_div").hide();
+    $("#running_section_tab").hide();
+    $reportSectionTab.show();
+	$reportSectionTab.find("a").tab('show');
+	openReportDiv(function() {
+		$("#foot_div").show();
+	});
+}
+
+function initScheduleTime() {
+	var date = getBrowserTimeApplyingTimezone();
+	$("#scheduled_hour").val(date.getHours());
+	$("#scheduled_min").val(date.getMinutes());
+}
+
+function setDurationHour(durationVal) {
+	var durationHour = parseInt(durationVal / 3600000);
+	durationHour = durationVal % 3600000 == 0 ? durationHour : durationHour + 1;
+	$("#duration_hour").val(durationHour);
+}
+</script>
+	</body>
+</html>

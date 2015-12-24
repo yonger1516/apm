@@ -1,0 +1,100 @@
+</br>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <i class="fa fa-list fa-fw"></i> API Performance
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                data-toggle="dropdown">
+                            Actions
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="/project/${projectId}/api/new">Add New API</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table class="table table-striped table-bordered table-hover" id="dataTables-apis">
+
+                    <thead>
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Avg RT</th>
+                        <th>Sdt.Dev</th>
+                        <th>Avg Apdex</th>
+                        <th>Avg TPS</th>
+                        <th>Runs</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list apis as api>
+                    <tr>
+
+                        <td>
+                            <a href="/project/${projectId}/api/${api.id}">
+                                ${(api.name)!}
+                            </a>
+                        </td>
+                        <td>${(api.description)!}</td>
+                        <td>${(api.avgRT)!0}</td>
+                        <td>${(api.sdtDev)!0}</td>
+                        <td>${(api.avgApdex)!0}</td>
+                        <td>${(api.avgTps)!0}</td>
+                        <td>${(api.runNum)!0}</td>
+                        <td>
+                            <a onclick="deleteAPI(${api.id})" class="btn btn-default btn-circle glyphicon glyphicon-trash">
+                            </a>
+                            <a href="/project/${projectId}/api/${api.id}/edit" title="Edit api" class="btn btn-default btn-circle glyphicon glyphicon-edit">
+                            </a>
+                        </td>
+                    </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+        $(document).ready(function() {
+            $('#dataTables-apis').DataTable({
+                    responsive: true
+            });
+        });
+
+       function deleteAPI(id){
+        if (confirm("Are you sure to delete this API?")){
+
+            $.ajax({
+                type: "DELETE",
+                url: "/project/${projectId}/api/"+id,
+                data: {},
+                dateType: 'json',
+            }).done(function(data){
+                if(data.success){
+                    alert("delete successful");
+                    location.reload();
+                 } else{
+                     alert("failed");
+                 }
+            });
+        }
+    }
+
+
+</script>
+

@@ -1,0 +1,43 @@
+</br>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel-body">
+
+            <form class="form-horizontal" action="/project/saveTrafficModel" method="post">
+
+
+                <#list traffics as traffic>
+                <div class="form-group">
+                    <label for="${(traffic.name)!}" class="col-sm-2 control-label">${(traffic.name)!} </label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" id="${(traffic.name)!}"
+                               value="${(traffic.rate)!}">
+                    </div>
+
+
+                    <label for="unit" class="col-sm-1 control-label">/</label>
+                    <div class="col-sm-1">
+                        <input class="form-control" type="text" id="unit"
+                               value="${(traffic.unit)!0}">
+                    </div>
+
+                </div>
+                </#list>
+
+                <div class="form-group">
+                    <label for="submit" class="col-sm-2 control-label"></label>
+
+                    <div class="col-sm-10">
+                        <button id="submit" type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+

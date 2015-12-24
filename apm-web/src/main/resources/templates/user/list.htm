@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<#include "../module/header.htm"/>
+
+<body>
+
+<div class="container">
+    <#include "../module/navigation.htm"/>
+
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="breadcrumb">
+                <li><a href="#">Management</a> <span class="divider"></span></li>
+                <li class="active">Users</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+
+                        <i class="fa fa-list fa-fw"></i> User List
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    Actions
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a href="/user/new">Add New User</a>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.panel-heading -->
+
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-users">
+
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <#list users as user>
+                                <tr>
+                                    <td>${(user.id)}</td>
+                                    <td>
+                                        <a href="/user/profile?id=${(user.id)!0}">
+                                            ${(user.name)!}
+                                        </a>
+                                    </td>
+                                    <td>${(user.enabled)!"enable"}</td>
+                                    <td>${(user.email)!}</td>
+                                    <td>${(user.role)!}</td>
+                                    <td>${(user.description)!}</td>
+                                    <td>
+                                        <a onclick="deleteUser(${user.id})" title="Delete User">
+                                            <button type="button" class="btn btn-default btn-circle"><span
+                                                    class="glyphicon glyphicon-trash"></span></button>
+                                        </a>
+                                        <a href="$!{contextPath}/user/edit?userId=${user.id}" title="Edit project">
+                                            <button type="button" class="btn btn-default btn-circle"><span
+                                                    class="glyphicon glyphicon-edit"></span></button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </#list>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+
+
+        </div>
+
+    </div>
+
+</div>
+<!-- /#wrapper -->
+
+
+<#include "../module/footer.htm"/>
+<!-- DataTables JavaScript -->
+<script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('#dataTables-users').DataTable({
+                    responsive: true
+            });
+        });
+
+    function deleteUser(id){
+        if (confirm("Are you sure to delete this user?")){
+            var params={'userId': id };
+            $.ajax({
+                type: "POST",
+                url: "/user/delete",
+                data: params,
+                dateType: 'json',
+            }).done(function(data){
+                if(data.success){
+                    alert("delete successful");
+                    location.reload();
+                 } else{
+                     alert("failed");
+                 }
+            });
+        }
+    }
+
+
+
+</script>
+
+
+</body>
+
+</html>
