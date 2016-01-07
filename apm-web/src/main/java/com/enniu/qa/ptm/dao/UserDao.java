@@ -15,7 +15,6 @@ import java.util.List;
  */
 
 @Repository
-@Transactional
 public interface UserDao extends JpaRepository<User,Long> {
     public List<User> findByRole(Role role);
 

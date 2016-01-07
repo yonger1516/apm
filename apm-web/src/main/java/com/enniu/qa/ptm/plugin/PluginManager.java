@@ -30,8 +30,9 @@ import com.atlassian.plugin.predicate.ModuleDescriptorPredicate;
 import com.enniu.qa.ptm.configuration.Config;
 import com.enniu.qa.ptm.configuration.constant.ControllerConstants;
 import com.enniu.qa.ptm.logger.CoreLogger;
+import com.enniu.qa.ptm.model.Home;
 import com.enniu.qa.ptm.model.Home2;
-import com.enniu.qa.ptm.service.PerfTestService2;
+import com.enniu.qa.ptm.service.PerfTestService;
 import com.enniu.qa.ptm.service.ScheduledTaskService;
 import com.enniu.qa.ptm.service.UserService;
 import org.apache.commons.io.FileUtils;
@@ -88,7 +89,7 @@ public class PluginManager implements ServletContextAware, ControllerConstants {
 
 	@SuppressWarnings("SpringJavaAutowiringInspection")
 	@Autowired
-	private PerfTestService2 perfTestService2;
+	private PerfTestService perfTestService;
 
 	@Autowired
 	private ScheduledTaskService scheduledTaskService;
@@ -139,13 +140,13 @@ public class PluginManager implements ServletContextAware, ControllerConstants {
 				reg.register(AuthenticationManager.class).forInstance(authenticationManager);
 				reg.register(IAgentManagerService.class).forInstance(agentManagerService);
 				reg.register(IUserService.class).forInstance(userService);
-				reg.register(IPerfTestService.class).forInstance(perfTestService2);
+				reg.register(IPerfTestService.class).forInstance(perfTestService);
 				reg.register(IConfig.class).forInstance(config);
 				reg.register(CacheManager.class).forInstance(cacheManager);
 				reg.register(IScheduledTaskService.class).forInstance(scheduledTaskService);
 			}
 		};
-		Home2 home = config.getHome();
+		Home home = config.getHome();
 		final String region = config.getRegion();
 
 		// Construct the configuration

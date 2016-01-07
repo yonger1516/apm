@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
+import static com.enniu.qa.ptm.util.CommonUtils.*;
 
 /**
  * Created by fuyong on 7/6/15.
@@ -78,22 +80,6 @@ public class APIController extends BaseController{
 		return map;
 	}
 
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-	public String edit(@PathVariable("projectId") long projectId, @PathVariable("id")long id,ModelMap map) {
-		Api api=handler.getApiById(id);
-		map.put("api",api);
-		map.put("project",projectService.getProjectById(projectId));
-		return "/api/edit";
-	}
-
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-	public String doEdit(@PathVariable("projectId")long projectId,@PathVariable("id")long apiId,ApiBasicDto dto, ModelMap map) {
-
-		handler.update(apiId, dto);
-		return "redirect:/project/"+projectId+"/api/"+apiId;
-	}
-
-
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public Object remove(@PathVariable("projectId")long projectId,@PathVariable("id")long apiId) throws Exception {
@@ -105,24 +91,47 @@ public class APIController extends BaseController{
 		return map;
 	}
 
-	@RequestMapping(value = "/{id}/overall", method = RequestMethod.GET)
-	public String getAPIOverall(@PathVariable("projectId")long projectId,@PathVariable("id") int id, ModelMap map) {
-
-		TestResultDTO resultDTO=new TestResultDTO();
-
-		List<TestResultDTO> dtoList=handler.getTestResults(id);
-
-		ApiStatDto apiDTO=new ApiStatDto();
-		apiDTO.setId(id);
-
+	/*
+	* api info edit
+	* */
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+	public String edit(@PathVariable("projectId") long projectId, @PathVariable("id")long id,ModelMap map) {
 		Api api=handler.getApiById(id);
+		map.put("api",api);
+		map.put("project", projectService.getProjectById(projectId));
+		return "/api/edit";
+	}
+
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+	public String doEdit(@PathVariable("projectId")long projectId,@PathVariable("id")long apiId,ApiBasicDto dto, ModelMap map) {
+
+		handler.update(apiId, dto);
+		return "redirect:/project/"+projectId+"/api/"+apiId;
+	}
+
+
+
+	@RequestMapping(value = "/{apiId}/overall", method = RequestMethod.GET)
+	public String getAPIOverall(@PathVariable("projectId")long projectId,@PathVariable("apiId") int apiId, ModelMap map) {
+
+
+		List<TestResultDTO> resultDTOs=handler.getTestResults(apiId);
+
+		/*ApiStatDto apiDTO=new ApiStatDto();
+		apiDTO.setId(id);*/
+
+		Api api=handler.getApiById(apiId);
 		map.put("api", api);
-		map.put("runs", dtoList);
-		map.put("stat", apiDTO);
+		map.put("results", resultDTOs);
+		//map.put("stat", apiDTO);
 
 		return "/api/overall";
 	}
 
+
+	/*
+	* api config
+	* */
 	@RequestMapping(value = "/{id}/config",method = RequestMethod.GET)
 	public String getConfig(@PathVariable("id")long apiId,ModelMap model){
 
@@ -132,7 +141,7 @@ public class APIController extends BaseController{
 
 		model.addAttribute(PARAM_REGION_AGENT_COUNT_MAP, handler.getAgentInfo(getCurrentUser()));
 		model.addAttribute(PARAM_REGION_LIST, handler.getRegionList());
-		model.addAttribute(PARAM_PROCESS_THREAD_POLICY_SCRIPT, handler.getPerfTestPolicyScript());
+		//model.addAttribute(PARAM_PROCESS_THREAD_POLICY_SCRIPT, handler.getPerfTestPolicyScript());
 		addDefaultAttributeOnModel(model);
 		return "/api/config";
 	}
@@ -166,9 +175,58 @@ public class APIController extends BaseController{
 	}
 
 	@RequestMapping(value = "/{apiId}/start")
-	public String startTest(@PathVariable("apiId")long apiId){
-		ApiTestRun run=handler.start(apiId);
-		return "redirect:/test/"+run.getId()+"/details";
+	public String startTest(@PathVariable("apiId")long apiId,RedirectAttributes attr){
+
+		ApiTestConfig config=handler.getConfig(apiId);
+		String testName=config.getApi().getName()+"_"+getDateStr();
+		attr.addAttribute("testName",testName);
+		attr.addAttribute("tagString","");
+		attr.addAttribute("description","");
+		attr.addAttribute("agentCount",config.getAgentCount());
+		attr.addAttribute("vuserPerAgent",config.getVuserPerAgent());
+		attr.addAttribute("processes",config.getProcesses());
+		attr.addAttribute("threads",config.getThreads());
+		attr.addAttribute("scriptName",config.getScriptName());
+		attr.addAttribute("scriptRevision",config.getScriptRevision());
+		attr.addAttribute("targetHosts",config.getTargetHosts());
+		attr.addAttribute("threshold",config.getThreshold());
+		attr.addAttribute("duration",config.getDuration());
+		//attr.addAttribute("durationHour",config.getDurationStr());
+		attr.addAttribute("runCount",config.getRunCount());
+		attr.addAttribute("samplingInterval",config.getSamplingInterval());
+		attr.addAttribute("ignoreSampleCount",config.getIgnoreSampleCount());
+
+		attr.addAttribute("param",config.getParam());
+		attr.addAttribute("rampUpType",config.getRampUpType());
+		attr.addAttribute("rampUpInitCount",config.getRampUpInitCount());
+		attr.addAttribute("rampUpStep",config.getRampUpStep());
+		attr.addAttribute("rampUpInitSleepTime",config.getRampUpInitSleepTime());
+		attr.addAttribute("rampUpIncrementInterval",config.getRampUpIncrementInterval());
+
+		attr.addAttribute("status", Status.READY);
+
+		ApiTestRun run=handler.start(apiId, testName);
+		attr.addAttribute("runId",run.getId());
+
+		return "redirect:/perftest/new";
+	}
+
+
+	@RequestMapping(value = "/{apiId}/{runId}",method = RequestMethod.GET)
+	public String perfTest(@PathVariable("apiId")long apiId,@PathVariable("runId")long runId){
+		ApiTestRun run=handler.getOneRun(apiId,runId);
+		return "redirect:/perftest/"+run.getPerfTestId();
+	}
+
+	@RequestMapping(value = "/{apiId}/{runId}",method = RequestMethod.DELETE)
+	@ResponseBody
+	public Object deletePerfTest(@PathVariable("apiId")long apiId,@PathVariable("runId")long runId){
+		handler.deleteTestRun(apiId, runId);
+
+		Map map=new HashMap();
+		map.put("success", true);
+		map.put("msg", "");
+		return map;
 	}
 
 

@@ -130,7 +130,7 @@
                     </td>
                     <td class="ellipsis">
                         <#if script.fileType.fileCategory.isEditable()>
-                            <a href="/script/detail/${script.path}" target="_self" title="${script.path}">${script.fileName}</a>
+                            <a href="/script/detail/${script.path}" target="_blank" title="${script.path}">${script.fileName}</a>
                             <#elseif script.fileType == "dir">
                                 <a href="/script/list/${script.path}" target="_self" title="${script.path}">${script.fileName}</a>
                                 <#else>

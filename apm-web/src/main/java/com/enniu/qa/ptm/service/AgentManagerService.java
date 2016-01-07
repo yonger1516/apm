@@ -182,7 +182,7 @@ public class AgentManagerService extends AbstractAgentManagerService {
 	@Override
 	public Map<String, MutableInt> getAvailableAgentCountMap(User user) {
 		int availableShareAgents = 0;
-		int availableUserOwnAgent = 1;//debug TODO
+		int availableUserOwnAgent = 0;//debug TODO
 		String myAgentSuffix = "owned_" + user.getUserId();
 		for (AgentInfo agentInfo : getAllActive()) {
 			// Skip all agents which are disapproved, inactive or

@@ -71,40 +71,40 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Start Time</th>
                         <th>status</th>
+                        <th>count</th>
+                        <th>Start Time</th>
                         <th>Duration</th>
-                        <th>Hps</th>
+                        <th>Rps</th>
                         <th>Apdex</th>
                         <th>AvgRT</th>
                         <th>TPS</th>
-                        <th>Error Rate</th>
-                        <th>Success Rate</th>
+                        <th>Errors</th>
                         <th>CommitId</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <#list runs as run>
+                    <#list results as result>
                     <tr>
 
                         <td>
-                            <a href="/project/${projectId}/api/${api.id}/run/${run.id}/result">
-                                ${(run.id)!}
+                            <a href="/project/${projectId}/api/${api.id}/${result.runId}" target="_blank">
+                                ${(result.id)!}
                             </a>
                         </td>
-                        <td>${(run.startTime)?date}</td>
-                        <td>${(run.status)!}</td>
-                        <td>${(run.duration)!0}</td>
-                        <td>${(run.hps)!0}</td>
-                        <td>${(run.apdex)!0}</td>
-                        <td>${(run.avgRT)!0}</td>
-                        <td>${(run.tps)!0}</td>
-                        <td>${(run.error)!0}</td>
-                        <td>${(run.success)!0}</td>
-                        <td>${(run.commitId)!0}</td>
+                        <td>${(result.status)!}</td>
+                        <td>${(result.tests)!0}</td>
+                        <td>${(result.startTime)}</td>
+                        <td>${(result.duration)!0}</td>
+                        <td>${(result.rps)!0}</td>
+                        <td>${(result.apdex)!0}</td>
+                        <td>${(result.avgRT)!0}</td>
+                        <td>${(result.tps)!0}</td>
+                        <td>${(result.errors)!0}</td>
+                        <td>${(result.commitId)!0}</td>
                         <td>
-                            <a onclick="deleteRun($run.runId)" title="Delete Run Record">
+                            <a onclick="deleteRun($result.runId)" title="Delete Run Record">
                                 <button type="button" class="btn btn-default btn-circle"><span
                                         class="glyphicon glyphicon-trash"></span></button>
                             </a>
@@ -127,7 +127,7 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <div id="morris-area-chart"></div>
+                <div id="tps_trend"></div>
             </div>
         </div>
     </div>
@@ -141,7 +141,7 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <div id="morris-bar-chart"></div>
+                <div id="rt_trend"></div>
             </div>
         </div>
     </div>
@@ -149,21 +149,23 @@
 
 
 <script src="/bower_components/morrisjs/morris.min.js"></script>
+<script src="/hcharts/highcharts.js"/>
 
 <script>
         $(document).ready(function() {
             $('#dataTables-runs').DataTable({
-                    responsive: true
+                    responsive: true,
+                    "order":[[0,"desc"]]
             });
         });
 
 
         function deleteRun(id){
         if (confirm("Are you sure to delete this test record?")){
-            var params={'runId': id };
+            var params={};
             $.ajax({
-                type: "POST",
-                url: "$!{contextPath}/test/deleteRun",
+                type: "DELETE",
+                url: "/project/${projectId}/api/${api.id}/"+id,
                 data: params,
                 dateType: 'json',
             }).done(function(data){
@@ -176,6 +178,67 @@
             });
         }
     }
+
+</script>
+
+<script>
+    $(function () {
+
+    var ids = [<#list results as result>${result.id},</#list>];
+    var tps=[<#list results as result>${result.tps},</#list>];
+    var rts=[<#list results as result>${result.avgRT},</#list>];
+
+    $('#tps_trend').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title:{
+            text:null
+        },
+        xAxis: {
+            title:{
+                text:'Run Id'
+            },
+            categories: ids   //指定x轴分组
+        },
+        yAxis: {
+            title: {
+                text: 'tps'                  //指定y轴的标题
+            }
+        },
+        series: [{
+            showInLegend: false,
+
+            data: tps                       //数据
+        }]
+    });
+
+    $('#rt_trend').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title:{
+            text:null
+        },
+        xAxis: {
+            title:{
+                text:'Run Id'
+            },
+            categories: ids   //指定x轴分组
+        },
+        yAxis: {
+            title: {
+                text: 'AvgRT(ms)'                  //指定y轴的标题
+            }
+        },
+        series: [{
+            showInLegend: false,
+
+            data: rts                       //数据
+        }]
+    });
+
+});
 
 </script>
 

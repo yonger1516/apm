@@ -111,7 +111,6 @@ public class FileEntryController extends BaseController {
 	/**
 	 * Get the list of file entries for the given user.
 	 *
-	 * @param user  current user
 	 * @param path  path looking for.
 	 * @param model model.
 	 * @return script/list
@@ -207,6 +206,7 @@ public class FileEntryController extends BaseController {
 	                         @RequestParam("fileName") String fileName,
 	                         @RequestParam(value = "scriptType", required = false) String scriptType,
 	                         @RequestParam(value = "createLibAndResource", defaultValue = "false") boolean createLibAndResources,
+	                         @RequestParam(value = "options", required = false) String options,
 	                         RedirectAttributes redirectAttributes, ModelMap model) throws Exception {
 		User user = getCurrentUser();
 
@@ -223,7 +223,7 @@ public class FileEntryController extends BaseController {
 		if (scriptHandler instanceof ProjectHandler) {
 			if (!fileEntryService.hasFileEntry(user, PathUtils.join(path, fileName))) {
 				fileEntryService.prepareNewEntry(user, path, fileName, name, testUrl, scriptHandler,
-						createLibAndResources);
+						createLibAndResources,options);
 				redirectAttributes.addFlashAttribute("message", fileName + " project is created.");
 				return "redirect:/script/list/" + path + "/" + fileName;
 			} else {
@@ -238,7 +238,7 @@ public class FileEntryController extends BaseController {
 				model.addAttribute("file", fileEntryService.getOne(user, fullPath));
 			} else {
 				model.addAttribute("file", fileEntryService.prepareNewEntry(user, path, fileName, name, testUrl,
-						scriptHandler, createLibAndResources));
+						scriptHandler, createLibAndResources,options));
 			}
 		}
 		model.addAttribute("breadcrumbPath", getScriptPathBreadcrumbs(PathUtils.join(path, fileName)));
@@ -375,13 +375,14 @@ public class FileEntryController extends BaseController {
 			fileEntryService.addFolder(user, basePath, "resources", getMessages("script.commit.resourceFolder"));
 		}
 		model.clear();
-		return "redirect:/script/list/" + basePath;
+		//return "redirect:/script/list/" + basePath;
+		return "redirect:/script/detail/" + fileEntry.getPath() + "?r=-1";
 	}
 
 	/**
 	 * Upload a file.
 	 *
-	 * @param user        current user
+
 	 * @param path        path
 	 * @param description description
 	 * @param file        multi part file
@@ -592,15 +593,14 @@ public class FileEntryController extends BaseController {
 	/**
 	 * Validate the script.
 	 *
-	 * @param user       current user
 	 * @param fileEntry  fileEntry
 	 * @param hostString hostString
 	 * @return validation Result string
 	 */
 	@RequestMapping(value = "/api/validate", method = RequestMethod.POST)
-
-	public HttpEntity<String> validate(User user, FileEntry fileEntry,
+	public HttpEntity<String> validate(FileEntry fileEntry,
 	                                   @RequestParam(value = "hostString", required = false) String hostString) {
+		User user=getCurrentUser();
 		fileEntry.setCreatedUser(user);
 		return toJsonHttpEntity(scriptValidationService.validate(user, fileEntry, false, hostString));
 	}

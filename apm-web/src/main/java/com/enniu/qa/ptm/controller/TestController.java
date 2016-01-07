@@ -40,7 +40,7 @@ public class TestController extends BaseController{
 
 	@SuppressWarnings("SpringJavaAutowiringInspection")
 	@Autowired
-	private PerfTestService2 perfTestService2;
+	private PerfTestService perfTestService;
 
 	@SuppressWarnings("SpringJavaAutowiringInspection")
 	@Autowired
@@ -72,7 +72,8 @@ public class TestController extends BaseController{
 
 	@RequestMapping(value = "/{id}/details", method = RequestMethod.GET)
 	public String getRunDetails(@PathVariable("id")long runId, ModelMap model) {
-		ApiTestRun run= perfTestService2.getOne(runId);
+		//ApiTestRun run= perfTestService.getOne(runId);
+		ApiTestRun run=null;
 
 		model.addAttribute("test", run);
 		model.addAttribute("user", getCurrentUser());
@@ -81,7 +82,7 @@ public class TestController extends BaseController{
 
 		model.addAttribute(PARAM_REGION_AGENT_COUNT_MAP, agentCountMap);
 		model.addAttribute(PARAM_REGION_LIST, regionService.getAllVisibleRegionNames());
-		model.addAttribute(PARAM_PROCESS_THREAD_POLICY_SCRIPT, perfTestService2.getProcessAndThreadPolicyScript());
+		model.addAttribute(PARAM_PROCESS_THREAD_POLICY_SCRIPT, perfTestService.getProcessAndThreadPolicyScript());
 		addDefaultAttributeOnModel(model);
 		return "/test/detail";
 	}
@@ -125,7 +126,7 @@ public class TestController extends BaseController{
 			runConfig.cloneTestConfig(api.getApiTestConfig());
 		}*/
 
-		runConfig=runConfigService.save(runConfig);
+		/*runConfig=runConfigService.save(runConfig);
 		run.setRunConfig(runConfig);
 		run.setCommit(commitService.findById(commitId));
 
@@ -133,8 +134,8 @@ public class TestController extends BaseController{
 		run.setReport(report);
 		//run.setStatus(Status.READY);
 		run.setCreatedUser(getCurrentUser());
-		run.setLastModifiedUser(getCurrentUser());
-		run= perfTestService2.save(run);
+		run.setLastModifiedUser(getCurrentUser());*/
+		//run= perfTestService.save(run);
 
 		return "redirect:/test/details?runId="+run.getId();
 	}
@@ -150,7 +151,7 @@ public class TestController extends BaseController{
 
 		model.addAttribute(PARAM_REGION_AGENT_COUNT_MAP, agentCountMap);
 		model.addAttribute(PARAM_REGION_LIST, regionService.getAllVisibleRegionNames());
-		model.addAttribute(PARAM_PROCESS_THREAD_POLICY_SCRIPT, perfTestService2.getProcessAndThreadPolicyScript());
+		model.addAttribute(PARAM_PROCESS_THREAD_POLICY_SCRIPT, perfTestService.getProcessAndThreadPolicyScript());
 		addDefaultAttributeOnModel(model);
 		return "/test/config";
 	}
@@ -184,24 +185,24 @@ public class TestController extends BaseController{
 	}
 
 
-	@RestAPI
+	/*@RestAPI
 	@RequestMapping("/api/{id}/status")
 	public HttpEntity<String> getStatus(@PathVariable("id") Long id) {
-		List<ApiTestRun> perfTests = perfTestService2.getAll(getCurrentUser(), new Long[]{id});
+		List<ApiTestRun> perfTests = perfTestService.getAll(getCurrentUser(), new Long[]{id});
 		return toJsonHttpEntity(buildMap("status", getStatus(perfTests)));
 	}
+*/
 
-
-	@RequestMapping(value = "/{id}/running_div")
+	/*@RequestMapping(value = "/{id}/running_div")
 	public String getRunningSection(ModelMap model, @PathVariable long id) {
 		User user=getCurrentUser();
 		ApiTestRun test = getOneWithPermissionCheck(user, id);
 		model.addAttribute(PARAM_TEST, test);
 		return "/test/running";
-	}
+	}*/
 
 
-	@RequestMapping(value = "/{id}/basic_report")
+	/*@RequestMapping(value = "/{id}/basic_report")
 	public String getReportSection(ModelMap model, @PathVariable long id, @RequestParam int imgWidth) {
 		User user=getCurrentUser();
 		ApiTestRun test = getOneWithPermissionCheck(user, id);
@@ -257,7 +258,7 @@ public class TestController extends BaseController{
 			run=null;
 		}
 		return run;
-	}
+	}*/
 	/**
 	 * Add the various default configuration values on the model.
 	 *

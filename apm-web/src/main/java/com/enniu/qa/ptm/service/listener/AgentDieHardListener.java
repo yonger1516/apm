@@ -15,12 +15,13 @@ package com.enniu.qa.ptm.service.listener;
 
 import com.enniu.qa.ptm.model.AgentManager;
 import com.enniu.qa.ptm.model.ApiTestRun;
-import com.enniu.qa.ptm.service.PerfTestService2;
+import com.enniu.qa.ptm.service.PerfTestService;
 import com.enniu.qa.ptm.service.ScheduledTaskService;
 import net.grinder.SingleConsole;
 import net.grinder.SingleConsole.SamplingLifeCycleListener;
 import net.grinder.console.communication.AgentProcessControlImplementation.AgentStatus;
 import net.grinder.statistics.StatisticsSet;
+import org.ngrinder.model.PerfTest;
 import org.ngrinder.model.Status;
 import org.ngrinder.monitor.controller.model.SystemDataModel;
 
@@ -34,8 +35,8 @@ import java.io.File;
  */
 public class AgentDieHardListener implements SamplingLifeCycleListener, Runnable {
 	private final SingleConsole singleConsole;
-	private final ApiTestRun perfTest;
-	private final PerfTestService2 perfTestService2;
+	private final PerfTest perfTest;
+	private final PerfTestService perfTestService;
 	private final AgentManager agentManager;
 	private final ScheduledTaskService scheduledTaskService;
 
@@ -44,15 +45,15 @@ public class AgentDieHardListener implements SamplingLifeCycleListener, Runnable
 	 *
 	 * @param singleConsole   singleConsole to monitor
 	 * @param perfTest        perfTest which this sampling start
-	 * @param perfTestService2 perfTestService
+	 * @param perfTestService perfTestService
 	 * @param agentManager    agent manager
 	 */
-	public AgentDieHardListener(final SingleConsole singleConsole, final ApiTestRun perfTest,
-	                            final PerfTestService2 perfTestService2,
+	public AgentDieHardListener(final SingleConsole singleConsole, final PerfTest perfTest,
+	                            final PerfTestService perfTestService,
 	                            final AgentManager agentManager, final ScheduledTaskService scheduledTaskService) {
 		this.singleConsole = singleConsole;
 		this.perfTest = perfTest;
-		this.perfTestService2 = perfTestService2;
+		this.perfTestService = perfTestService;
 		this.agentManager = agentManager;
 		this.scheduledTaskService = scheduledTaskService;
 		this.scheduledTaskService.addFixedDelayedScheduledTask(this, 2);
@@ -67,7 +68,7 @@ public class AgentDieHardListener implements SamplingLifeCycleListener, Runnable
 				double freeMemoryRatio = ((double) systemDataModel.getFreeMemory()) / systemDataModel.getTotalMemory();
 				if (freeMemoryRatio < 0.02) {
 					if (perfTest.getStatus() != Status.ABNORMAL_TESTING) {
-						perfTestService2.markStatusAndProgress(perfTest, Status.ABNORMAL_TESTING, //
+						perfTestService.markStatusAndProgress(perfTest, Status.ABNORMAL_TESTING, //
 								String.format("[ERROR] %s agent is about to die due to lack of free memory.\n"
 										+ "Shutdown PerfTest %s by force for safety\n" + "Please decrease the vuser count.", //
 										agentStates.getAgentName(), perfTest.getId()));

@@ -2,6 +2,7 @@ package com.enniu.qa.ptm.configuration;
 
 import com.enniu.qa.ptm.service.AgentManagerService;
 import com.enniu.qa.ptm.service.ClusteredAgentManagerService;
+import com.enniu.qa.ptm.service.PerfTestService;
 import com.enniu.qa.ptm.spring.ApiExceptionHandlerResolver;
 import net.grinder.engine.agent.LocalScriptTestDriveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,6 @@ public class ApplicationConfigurations {
             return new AgentManagerService();
         }
     }
+
+
 }

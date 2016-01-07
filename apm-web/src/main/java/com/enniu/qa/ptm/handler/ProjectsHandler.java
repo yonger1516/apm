@@ -33,7 +33,7 @@ public class ProjectsHandler {
 	CommitService commitService;
 
 	@Autowired
-	TestRunService testRunService;
+	ApiTestRunService apiTestRunService;
 
 	@Autowired
 	ApiService apiService;
@@ -201,7 +201,7 @@ public class ProjectsHandler {
 
 			List<Long> reportIds = new ArrayList<Long>();
 			for (ApiTestRun run : runs) {
-				reportIds.add(run.getReport().getId());
+				//reportIds.add(run.getReport().getId());
 			}
 
 			if (0<reportIds.size()){

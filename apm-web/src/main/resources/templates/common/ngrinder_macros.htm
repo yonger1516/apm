@@ -61,11 +61,11 @@
 
 
 <#macro input_prepend name, value, message, extra_css>
-	<div class="input-prepend ${extra_css}" style="margin-bottom: 0">
+	<div class="input-group ${extra_css}" style="margin-bottom: 0">
 		<span class="input-group-addon" title='<@spring.message "${message}"/>'>
 			<@spring.message "${message}"/>
 		</span>
-		<input class="input span1" type="text" id="${toUnderscore(name)}" name="${name}" value="${value}" />
+		<input class="form-control" type="text" id="${toUnderscore(name)}" name="${name}" value="${value}" />
 	</div>
 </#macro>
 
@@ -84,7 +84,7 @@
 
 <#macro input_popover name, message, value = "", type = "text", rel = "popover", extra_css = "", message_content = "",
 	data_placement = "top", others = "", placeholder = "">
-	<input type="${type}" class="input ${extra_css}"  <#if others!="">${others}</#if>
+	<input type="${type}" class=" ${extra_css}"  <#if others!="">${others}</#if>
 		id="${toUnderscore(name)}"
 		name="${name}"
 		rel="${rel}"
@@ -247,7 +247,7 @@
 			input_id="", input_name="", input_value="" checkbox_checked="">
 		<div class="form-group" id="${group_id}">
 			<label class="control-label ${lable_extra_class}" <#if name!="">for="${toUnderscore(name)}"</#if> style="${label_style}">
-			<input type="checkbox" id="${input_id}" name="${input_name}" value="${input_value}" checked="${checkbox_checked}"/>
+			<input type="checkbox" id="${input_id}" name="${input_name}" value="${input_value}" ${checkbox_checked}/>
 			<@spring.message "${label_message_key}"/>
 			</label>
 			<div class="${controls_extra_class}" style="${controls_style}">

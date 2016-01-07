@@ -3,6 +3,7 @@
 	<head>
 		<#include "/common/common.htm"/>
 		<#include "/common/jqplot.htm"/>
+		<#include "/common/messages.htm"/>
 		<!-- Bootstrap Core CSS -->
 		<link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -133,9 +134,9 @@
 	</div>
 
 
-	<#include "../common/codemirror.htm">
+	<#include "/common/codemirror.htm">
 	<script src="${req.getContextPath()}/plugins/codemirror/lang/${scriptHandler.codemirrorKey!scriptHandler.getCodemirrorKey(file.fileType)}.js"></script>
-	<#include "../test/host_modal.htm">
+	<#include "/test/host_modal.htm">
 	<script>
 		var curRevision = ${curRevision!0};
 		var lastRevision = ${lastRevision!0};
@@ -147,6 +148,8 @@
 			document.forms.content_form.action = "/script/save";
 			document.forms.content_form.submit();
 		}
+
+
 		$(document).ready(function() {
 			var editor = CodeMirror.fromTextArea(document.getElementById("codemirror_content"), {
 				mode: "${scriptHandler.codemirrorKey!scriptHandler.getCodemirrorKey(file.fileType)}",
@@ -196,6 +199,7 @@
 
 			var validating = false;
 			$("#validate_btn").click(function() {
+			console.info("click validate");
 				if (validating) {
 					return;
 				}

@@ -14,10 +14,7 @@
 package com.enniu.qa.ptm.repository;
 
 import com.enniu.qa.ptm.configuration.Config;
-import com.enniu.qa.ptm.model.FileCategory;
-import com.enniu.qa.ptm.model.FileEntry;
-import com.enniu.qa.ptm.model.FileType;
-import com.enniu.qa.ptm.model.Home2;
+import com.enniu.qa.ptm.model.*;
 import com.enniu.qa.ptm.service.UserContext;
 import com.enniu.qa.ptm.util.EncodingUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -74,7 +71,7 @@ public class FileEntryRepository {
 	@Autowired
 	private Config config;
 
-	private Home2 home;
+	private Home home;
 
 	private File subversionHome;
 

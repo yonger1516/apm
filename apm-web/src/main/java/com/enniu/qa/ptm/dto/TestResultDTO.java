@@ -9,17 +9,26 @@ import java.util.Date;
  */
 public class TestResultDTO {
 
+	private int id;
 	private long runId;
 	private long commitId;
 	private Date startTime;
-	private long duration;
+	private String duration;
 	private Status status;
-	private double hps;
+	private long tests;
+	private double rps;
+	private double tps;
 	private double apdex;
 	private double avgRT;
-	private double tps;
-	private double error;
-	private double success;
+	private long errors;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public long getRunId() {
 		return runId;
@@ -45,11 +54,11 @@ public class TestResultDTO {
 		this.startTime = startTime;
 	}
 
-	public long getDuration() {
+	public String getDuration() {
 		return duration;
 	}
 
-	public void setDuration(long duration) {
+	public void setDuration(String duration) {
 		this.duration = duration;
 	}
 
@@ -61,13 +70,6 @@ public class TestResultDTO {
 		this.status = status;
 	}
 
-	public double getHps() {
-		return hps;
-	}
-
-	public void setHps(double hps) {
-		this.hps = hps;
-	}
 
 	public double getApdex() {
 		return apdex;
@@ -93,19 +95,32 @@ public class TestResultDTO {
 		this.tps = tps;
 	}
 
-	public double getError() {
-		return error;
+	public long getTests() {
+		return tests;
 	}
 
-	public void setError(double error) {
-		this.error = error;
+	public void setTests(long tests) {
+		this.tests = tests;
 	}
 
-	public double getSuccess() {
-		return success;
+	public double getRps() {
+		return rps;
 	}
 
-	public void setSuccess(double success) {
-		this.success = success;
+	public void setRps(double rps) {
+		this.rps = rps;
 	}
+
+	public long getErrors() {
+		return errors;
+	}
+
+	public void setErrors(long errors) {
+		this.errors = errors;
+	}
+
 }
+
+
+
+

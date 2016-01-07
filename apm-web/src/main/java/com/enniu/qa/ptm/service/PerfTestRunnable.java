@@ -13,25 +13,34 @@
  */
 package com.enniu.qa.ptm.service;
 
+import com.enniu.qa.ptm.configuration.Config;
+import com.enniu.qa.ptm.configuration.constant.ControllerConstants;
+import com.enniu.qa.ptm.handler.ScriptHandler;
+import com.enniu.qa.ptm.model.AgentManager;
+import com.enniu.qa.ptm.model.NullSingleConsole;
+import com.enniu.qa.ptm.plugin.PluginManager;
+import com.enniu.qa.ptm.service.listener.AgentDieHardListener;
+import com.enniu.qa.ptm.service.listener.AgentLostDetectionListener;
+import com.enniu.qa.ptm.service.listener.PerfTestSamplingCollectorListener;
+import com.enniu.qa.ptm.util.SingleConsoleCancellationException;
 import net.grinder.SingleConsole;
 import net.grinder.SingleConsole.ConsoleShutdownListener;
 import net.grinder.StopReason;
 import net.grinder.common.GrinderProperties;
+import net.grinder.common.processidentity.AgentIdentity;
 import net.grinder.console.model.ConsoleProperties;
 import net.grinder.util.ListenerHelper;
 import net.grinder.util.ListenerSupport;
 import net.grinder.util.UnitUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.ngrinder.common.constant.ControllerConstants;
 import org.ngrinder.extension.OnTestLifeCycleRunnable;
 import org.ngrinder.extension.OnTestSamplingRunnable;
-import org.ngrinder.infra.config.Config;
-import org.ngrinder.infra.plugin.PluginManager;
+
+
 import org.ngrinder.model.PerfTest;
 import org.ngrinder.model.Status;
-import org.ngrinder.perftest.model.NullSingleConsole;
-import org.ngrinder.script.handler.ScriptHandler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +50,13 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.apache.commons.lang.ObjectUtils.defaultIfNull;
-import static org.ngrinder.common.constant.ClusterConstants.PROP_CLUSTER_SAFE_DIST;
+
 import static org.ngrinder.common.util.AccessUtils.getSafe;
 import static org.ngrinder.model.Status.*;
+import static com.enniu.qa.ptm.configuration.constant.ClusterConstants.PROP_CLUSTER_SAFE_DIST;
 
 /**
  * {@link PerfTest} run scheduler.
@@ -60,7 +68,7 @@ import static org.ngrinder.model.Status.*;
  * @author JunHo Yoon
  * @since 3.0
  */
-@Profile("production")
+//@Profile("production")
 @Component
 public class PerfTestRunnable implements ControllerConstants {
 
@@ -314,8 +322,16 @@ public class PerfTestRunnable implements ControllerConstants {
 	void startAgentsOn(PerfTest perfTest, GrinderProperties grinderProperties, SingleConsole singleConsole) {
 		perfTestService.markStatusAndProgress(perfTest, START_AGENTS, getSafe(perfTest.getAgentCount())
 				+ " agents are starting.");
+
+		//to support multi-api test
+		Set<AgentIdentity> agentIdentities=new HashSet<AgentIdentity>();
+		if (false){
+			//agentIdentities.add(agentManager.getAgentByName(perfTest.getRunConfig().getAgentId()));//specify agent to run
+		}else{
+			agentIdentities=agentManager.selectAgent(perfTest.getCreatedUser(),agentManager.getAllFreeApprovedAgentsForUser(perfTest.getCreatedUser()),1);//random to select numbers fo agent to run
+		}
 		agentManager.runAgent(perfTest.getCreatedUser(), singleConsole, grinderProperties,
-				getSafe(perfTest.getAgentCount()));
+				agentIdentities);
 		singleConsole.waitUntilAgentConnected(perfTest.getAgentCount());
 		perfTestService.markStatusAndProgress(perfTest, START_AGENTS_FINISHED, getSafe(perfTest.getAgentCount())
 				+ " agents are ready.");

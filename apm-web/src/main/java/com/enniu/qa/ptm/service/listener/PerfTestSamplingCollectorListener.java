@@ -13,7 +13,7 @@
  */
 package com.enniu.qa.ptm.service.listener;
 
-import com.enniu.qa.ptm.service.PerfTestService2;
+import com.enniu.qa.ptm.service.PerfTestService;
 import com.enniu.qa.ptm.service.ScheduledTaskService;
 import net.grinder.SingleConsole;
 import net.grinder.SingleConsole.SamplingLifeCycleListener;
@@ -36,18 +36,18 @@ public class PerfTestSamplingCollectorListener implements SamplingLifeCycleListe
 	 *
 	 * @param singleConsole        singleConsole to monitor
 	 * @param perfTestId           perfTest id which this sampling start
-	 * @param perfTestService2      perfTestService
+	 * @param perfTestService      perfTestService
 	 * @param scheduledTaskService scheduledTaskService
 	 */
 	public PerfTestSamplingCollectorListener(final SingleConsole singleConsole, final Long perfTestId,
-	                                         final PerfTestService2 perfTestService2,
+	                                         final PerfTestService perfTestService,
 	                                         ScheduledTaskService scheduledTaskService) {
 		this.scheduledTaskService = scheduledTaskService;
 		// Make it separate asyc call to remove the delay on the sampling.
 		this.runnable = new Runnable() {
 			@Override
 			public void run() {
-				perfTestService2.saveStatistics(singleConsole, perfTestId);
+				perfTestService.saveStatistics(singleConsole, perfTestId);
 			}
 		};
 	}

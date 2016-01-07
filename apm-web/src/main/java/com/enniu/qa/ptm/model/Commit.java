@@ -27,16 +27,16 @@ public class Commit extends BaseModel<Commit>{
 	@JoinColumn(name = "api_id",referencedColumnName = "id")
 	private API api;*/
 
-	@OneToOne(mappedBy = "commit")
+	/*@OneToOne(mappedBy = "commit")
 	private ApiTestRun run;
-
-	public ApiTestRun getRun() {
+*/
+	/*public ApiTestRun getRun() {
 		return run;
 	}
 
 	public void setRun(ApiTestRun run) {
 		this.run = run;
-	}
+	}*/
 
 
 	public Project getProject() {

@@ -14,11 +14,12 @@
 package com.enniu.qa.ptm.service.listener;
 
 import com.enniu.qa.ptm.model.ApiTestRun;
-import com.enniu.qa.ptm.service.PerfTestService2;
+import com.enniu.qa.ptm.service.PerfTestService;
 import com.enniu.qa.ptm.service.ScheduledTaskService;
 import net.grinder.SingleConsole;
 import net.grinder.SingleConsole.SamplingLifeCycleListener;
 import net.grinder.statistics.StatisticsSet;
+import org.ngrinder.model.PerfTest;
 import org.ngrinder.model.Status;
 
 import java.io.File;
@@ -39,18 +40,18 @@ public class AgentLostDetectionListener implements SamplingLifeCycleListener {
 	 *
 	 * @param singleConsole   singleConsole to monitor
 	 * @param perfTest        perfTest which this sampling start
-	 * @param perfTestService2 service
+	 * @param perfTestService service
 	 * @param scheduledTaskService scheduledTaskService
 	 */
-	public AgentLostDetectionListener(final SingleConsole singleConsole, final ApiTestRun perfTest,
-	                                  final PerfTestService2 perfTestService2, ScheduledTaskService scheduledTaskService) {
+	public AgentLostDetectionListener(final SingleConsole singleConsole, final PerfTest perfTest,
+	                                  final PerfTestService perfTestService, ScheduledTaskService scheduledTaskService) {
 		this.scheduledTaskService = scheduledTaskService;
 		this.runnable = new Runnable() {
 			@Override
 			public void run() {
 				if (singleConsole.getAllAttachedAgentsCount() == 0) {
 					if (lostAgentDetectionTrial++ > 10) {
-						perfTestService2.markStatusAndProgress(perfTest, Status.ABNORMAL_TESTING,
+						perfTestService.markStatusAndProgress(perfTest, Status.ABNORMAL_TESTING,
 								"[ERROR] All agents are unexpectedly lost.");
 					}
 				} else {

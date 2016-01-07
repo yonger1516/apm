@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.deser.Deserializers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,6 +41,12 @@ public class IndexController extends BaseController {
 	 */
 	@RequestMapping(value = "/login")
 	public String login(HttpServletRequest request,HttpSession session) {
+		setSession(request,session);
+		return "login";
+	}
+
+	@RequestMapping(value = "/login/header")
+	public String login2(@RequestHeader("host")String host,@RequestHeader("X-Tracking-ID")String trackId,HttpServletRequest request,HttpSession session) {
 		setSession(request,session);
 		return "login";
 	}

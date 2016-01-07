@@ -60,6 +60,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.script.ScriptEngine;
@@ -88,6 +89,7 @@ import static com.enniu.qa.ptm.dao.PerfTestSpecification.*;
  * @author Mavlarn
  * @since 3.0
  */
+
 public class PerfTestService extends AbstractPerfTestService implements ControllerConstants, GrinderConstants {
 
 	private static final int MAX_POINT_COUNT = 100;
@@ -116,6 +118,43 @@ public class PerfTestService extends AbstractPerfTestService implements Controll
 
 	@Autowired
 	private ScriptHandlerFactory scriptHandlerFactory;
+
+
+	public void setPerfTestRepository(PerfTestRepository perfTestRepository) {
+		this.perfTestRepository = perfTestRepository;
+	}
+
+	public ConsoleManager getConsoleManager() {
+		return consoleManager;
+	}
+
+	public void setConsoleManager(ConsoleManager consoleManager) {
+		this.consoleManager = consoleManager;
+	}
+
+	public AgentManager getAgentManager() {
+		return agentManager;
+	}
+
+	public void setAgentManager(AgentManager agentManager) {
+		this.agentManager = agentManager;
+	}
+
+	public FileEntryService getFileEntryService() {
+		return fileEntryService;
+	}
+
+	public void setFileEntryService(FileEntryService fileEntryService) {
+		this.fileEntryService = fileEntryService;
+	}
+
+	public ScriptHandlerFactory getScriptHandlerFactory() {
+		return scriptHandlerFactory;
+	}
+
+	public void setScriptHandlerFactory(ScriptHandlerFactory scriptHandlerFactory) {
+		this.scriptHandlerFactory = scriptHandlerFactory;
+	}
 
 	/**
 	 * Get {@link PerfTest} list for the given user.

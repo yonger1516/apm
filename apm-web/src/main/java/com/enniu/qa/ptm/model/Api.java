@@ -26,6 +26,7 @@ public class Api extends BaseModel<Api> {
     private ApiTestConfig apiTestConfig;
 
     @OneToMany(mappedBy = "api")
+    @OrderBy("createdDate ASC")
     private Set<ApiTestRun> runs;
 
     private String path;

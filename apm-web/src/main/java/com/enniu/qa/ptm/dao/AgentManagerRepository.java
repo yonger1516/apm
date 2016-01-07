@@ -32,7 +32,7 @@ import javax.transaction.Transactional;
  * @author JunHo Yoon
  * @since 3.0
  */
-@Transactional
+@Repository
 public interface AgentManagerRepository extends JpaRepository<AgentInfo, Long>, JpaSpecificationExecutor<AgentInfo> {
 
 	/**

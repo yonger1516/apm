@@ -9,6 +9,7 @@ import com.enniu.qa.ptm.service.*;
 import com.enniu.qa.ptm.util.ReportAggregate;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.mutable.MutableInt;
+import org.ngrinder.model.PerfTest;
 import org.ngrinder.model.Status;
 import org.ngrinder.model.User;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class ApiHandler {
 	ApiService apiService;
 
 	@Autowired
-	TestRunService testRunService;
+	ApiTestRunService apiTestRunService;
 
 	@Autowired
 	TestReportService reportService;
@@ -71,7 +72,7 @@ public class ApiHandler {
 	RegionService regionService;
 
 	@Autowired
-	PerfTestService2 perfTestService2;
+	PerfTestService perfTestService;
 
 	public List<ApiStatDto> getApiBasicInfos(long projectId){
 		List<Api> apis=getApisByProject(projectId);
@@ -88,7 +89,7 @@ public class ApiHandler {
 
 			List<Long> reportIds = new ArrayList<Long>();
 			for (ApiTestRun run : runs) {
-				reportIds.add(run.getReport().getId());
+				//reportIds.add(run.getReport().getId());
 			}
 
 			if (0 < reportIds.size()) {
@@ -139,7 +140,7 @@ public class ApiHandler {
 		api= apiService.save(api);
 
 
-		ApiTestConfig config = addNewConfig(user, api);
+		ApiTestConfig config = addNewConfig(api);
 		api.setApiTestConfig(config);
 
 		Traffic traffic = new Traffic();
@@ -173,21 +174,24 @@ public class ApiHandler {
 		List<TestResultDTO> resultDTOs = new ArrayList<TestResultDTO>();
 
 		Set<ApiTestRun> runList = apiService.findById(id).getRuns();
+
+		int i=1;
 		for (ApiTestRun run : runList) {
 			TestResultDTO dto = new TestResultDTO();
+			dto.setId(i++);
 			dto.setRunId(run.getId());
-			dto.setStartTime(run.getCreatedDate());
-			dto.setCommitId(run.getCommit().getId());
-			dto.setStatus(run.getStatus());
 
-			TestReport report = run.getReport();
-			dto.setApdex(report.getApdex());
-			dto.setAvgRT(report.getAvgRT());
-			dto.setDuration(report.getDuration());
-			dto.setError(report.getErrorRate());
-			dto.setHps(report.getAvgHps());
-			dto.setSuccess(report.getSuccessRate());
-			dto.setTps(report.getAvgTps());
+			PerfTest perfTest=perfTestService.getOne(run.getPerfTestId());
+			dto.setStartTime(perfTest.getStartTime());
+			dto.setCommitId(0);
+			dto.setStatus(perfTest.getStatus());
+			dto.setDuration(perfTest.getRuntimeStr());
+			dto.setTests(perfTest.getTests());
+			dto.setRps(perfTest.getTps());//TODO
+			dto.setAvgRT(perfTest.getMeanTestTime());
+			dto.setApdex(0);//TODO
+			dto.setTps(perfTest.getTps());
+			dto.setErrors(perfTest.getErrors());
 
 			resultDTOs.add(dto);
 
@@ -197,15 +201,14 @@ public class ApiHandler {
 		return resultDTOs;
 	}
 
-	public ApiTestConfig addNewConfig(User user, Api api) {
+	public ApiTestConfig addNewConfig(Api api) {
 		ApiTestConfig config = new ApiTestConfig();
 		config.init();
 		config.setApi(api);
 
-		config.setScriptName("");
 		config.setScriptRevision(-1L);
 
-		return saveConfig(user,api.getId(),config);
+		return apiTestConfigService.save(config);
 	}
 
 	public ApiTestConfig saveConfig(User user,long apiId,ApiTestConfig config){
@@ -233,9 +236,9 @@ public class ApiHandler {
 		return regionService.getAllVisibleRegionNames();
 	}
 
-	public String getPerfTestPolicyScript(){
-		return perfTestService2.getProcessAndThreadPolicyScript();
-	}
+	/*public String getPerfTestPolicyScript(){
+		return perfTestService.getProcessAndThreadPolicyScript();
+	}*/
 
 	private long attachFileRevision(User user,String scriptName){
 		FileEntry scriptEntry=fileEntryService.getOne(user,scriptName);
@@ -280,37 +283,30 @@ public class ApiHandler {
 				"vuserPerAgent should be equal to (processes * threads)");
 	}
 
-	public ApiTestRun start(long apiId) {
+	public ApiTestRun start(long apiId,String testName) {
 		ApiTestRun run=new ApiTestRun();
 
 		Api api=apiService.findById(apiId);
-		run.setApi(api);
-		run.setDescription("");
 
+		run.setApi(api);
 		run.setCreatedUser(context.getCurrentUser());
 		run.setLastModifiedUser(context.getCurrentUser());
 		run.setCreatedDate(new Date());
 		run.setLastModifiedDate(new Date());
 
-		run.set
+		run.setPerfTestName(testName);
 
 
-		ApiRunTestConfig runConfig=new ApiRunTestConfig();
-
-		runConfig.cloneTestConfig(apiService.findById(id).getApiTestConfig());
-
-		runConfig=runConfigService.save(runConfig);
-		run.setRunConfig(runConfig);
-
-		/*Commit commit=commitService.save(new Commit());
-		run.setCommit(commit);*/
-
-		TestReport report=reportService.save(new TestReport());
-		run.setReport(report);
-		run.setStatus(Status.READY);
+		return apiTestRunService.save(run);
+	}
 
 
-		run= perfTestService2.save(run);
-		return null;
+	public ApiTestRun getOneRun(long apiId, long runId) {
+		return apiTestRunService.findById(runId);
+
+	}
+
+	public void deleteTestRun(long apiId, long runId) {
+		apiTestRunService.deleteRun(runId);
 	}
 }

@@ -85,7 +85,7 @@
                     }).done(function(data){
                         if(data.success){
                             alert("add successful");
-                            window.location='/project/data.id/details';
+                            window.location='/project/'+data.id+'/details';
                          } else{
                              alert("failed");
                          }
