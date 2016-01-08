@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static net.grinder.util.NetworkUtils.getIP;
-import static org.ngrinder.common.constants.InternalConstants.PROP_INTERNAL_NGRINDER_VERSION;
+import static org.ngrinder.common.constants.InternalConstants.PROP_INTERNAL_APM_VERSION;
 import static org.ngrinder.common.util.NoOp.noOp;
 
 /**
@@ -89,7 +89,7 @@ public class NGrinderAgentStarter implements AgentConstants, CommonConstants {
 	 * @return version string
 	 */
 	public String getVersion() {
-		return agentConfig.getInternalProperties().getProperty(PROP_INTERNAL_NGRINDER_VERSION);
+		return agentConfig.getInternalProperties().getProperty(PROP_INTERNAL_APM_VERSION);
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class NGrinderAgentStarter implements AgentConstants, CommonConstants {
 		} finally {
 			IOUtils.closeQuietly(inputStream);
 		}
-		return properties.getProperty("ngrinder.version", "UNKNOWN");
+		return properties.getProperty("apm.version", "UNKNOWN");
 	}
 
 	static void checkJavaVersion() {

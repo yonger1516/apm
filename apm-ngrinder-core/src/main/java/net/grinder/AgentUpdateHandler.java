@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-import static org.ngrinder.common.constants.InternalConstants.PROP_INTERNAL_NGRINDER_VERSION;
+import static org.ngrinder.common.constants.InternalConstants.PROP_INTERNAL_APM_VERSION;
 import static org.ngrinder.common.util.Preconditions.checkTrue;
 
 /**
@@ -56,7 +56,7 @@ public class AgentUpdateHandler implements Closeable {
 	public AgentUpdateHandler(AgentConfig agentConfig, AgentUpdateGrinderMessage message)
 			throws FileNotFoundException {
 		if (!agentConfig.getAgentProperties().getPropertyBoolean(AgentConstants.PROP_AGENT_UPDATE_ALWAYS)) {
-			checkTrue(isNewer(message.getVersion(), agentConfig.getInternalProperties().getProperty(PROP_INTERNAL_NGRINDER_VERSION)),
+			checkTrue(isNewer(message.getVersion(), agentConfig.getInternalProperties().getProperty(PROP_INTERNAL_APM_VERSION)),
 					"Update request was sent. But it's the older version " + message.getVersion());
 		}
 		this.agentConfig = agentConfig;

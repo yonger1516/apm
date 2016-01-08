@@ -60,9 +60,6 @@ public class ApiHandler {
 	ApiTestConfigService apiTestConfigService;
 
 	@Autowired
-	RunConfigService runConfigService;
-
-	@Autowired
 	UserContext context;
 
 	@Autowired

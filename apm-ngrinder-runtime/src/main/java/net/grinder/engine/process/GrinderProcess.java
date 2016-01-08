@@ -116,7 +116,6 @@ final class GrinderProcess {
 	private LoadTestExecutorService testExecutorService;
 	private ExecutorService executorService;
 	private ScheduledExecutorService scheduledExecutorService;
-	private boolean rpsMode = false;
 
 	/**
 	 * Creates a new <code>GrinderProcess</code> instance.
@@ -358,10 +357,8 @@ final class GrinderProcess {
 			m_dataLogger.info(dataLogHeader.toString());
 
 			sendStatusMessage(ProcessReport.STATE_STARTED, (short) 0, numberOfThreads);
-			boolean threadRampUp = properties.getBoolean("grinder.threadRampUp", false);
-			if (rpsMode){
-				threadRampUp=false;//the two running model can't be apply at the same time
-			}
+			double rps = properties.getInt("grinder.fixedRpsRate", 0);
+			boolean threadRampUp = rps>0?false:properties.getBoolean("grinder.threadRampUp", false);//the two running model can't be apply at the same time
 
 			final ThreadSynchronisation threadSynchronisation = threadRampUp ?
 					new ThreadRampUpEnabledThreadSynchronisation(m_eventSynchronisation, m_sleeper) :
@@ -374,9 +371,20 @@ final class GrinderProcess {
 
 				m_threadStarter = new ThreadStarterImplementation(threadSynchronisation, scriptEngine);
 
-				if (rpsMode) {
-
-					m_threadStarter = new ThreadStarterImplementation(threadSynchronisation, scriptEngine);
+				if (rps > 0) {
+					TimeUnit unit = TimeUnit.MILLISECONDS;
+					long period = 0;
+					if (rps >= 1 && rps <= 1000) {
+						period = 1000 / (long) rps;
+					} else if (rps > 1000 && rps <= Math.pow(10, 6)) {
+						unit = TimeUnit.MICROSECONDS;
+						period = (long) (Math.pow(10, 6) / rps);
+					} else if (rps < 1) {
+						period = (long) (1 / rps);
+					}else{
+						m_logger.error("rps rate {} not support",rps);
+						return;
+					}
 
 					scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 						@Override
@@ -389,7 +397,7 @@ final class GrinderProcess {
 								e.printStackTrace();
 							}
 						}
-					}, 0, 0, TimeUnit.MILLISECONDS);
+					}, 0, period, unit);
 
 				} else {
 

@@ -79,9 +79,9 @@ import static org.ngrinder.common.util.Preconditions.checkNotNull;
 
 	  protected PropertiesKeyMapper internalPropertiesKeyMapper = PropertiesKeyMapper.create("internal-properties.map");
 	  protected PropertiesKeyMapper controllerPropertiesKeyMapper = PropertiesKeyMapper.create("controller-properties.map");
-	  //protected PropertiesKeyMapper clusterPropertiesKeyMapper = PropertiesKeyMapper.create("cluster-properties.map");
+	  protected PropertiesKeyMapper clusterPropertiesKeyMapper = PropertiesKeyMapper.create("cluster-properties.map");
 
-	  //@SuppressWarnings("SpringJavaAutowiringInspection")
+	  @SuppressWarnings("SpringJavaAutowiringInspection")
 	  @Autowired
 	  private SpringContext context;
 
@@ -534,7 +534,7 @@ import static org.ngrinder.common.util.Preconditions.checkNotNull;
 	   * @return version number
 	   */
 	  public String getVersion() {
-		  return getInternalProperties().getProperty(InternalConstants.PROP_INTERNAL_NGRINDER_VERSION);
+		  return getInternalProperties().getProperty(InternalConstants.PROP_INTERNAL_APM_VERSION);
 	  }
 
 	  /**

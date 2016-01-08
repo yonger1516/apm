@@ -312,7 +312,7 @@ public class PerfTest extends BaseModel<PerfTest> {
 	private Boolean useFixedRateRPS;
 
 	@Column(name = "rps")
-	private Integer rps;
+	private Double rps;
 
 	@PrePersist
 	@PreUpdate
@@ -352,7 +352,7 @@ public class PerfTest extends BaseModel<PerfTest> {
 		this.rampUpType = getSafe(this.rampUpType, RampUp.PROCESS);
 
 		this.useFixedRateRPS=getSafe(this.useFixedRateRPS,false);
-		this.rps=getSafe(this.rps,0);
+		this.rps=getSafe(this.rps,0.0);
 	}
 
 	public Boolean getUseFixedRateRPS() {
@@ -363,11 +363,11 @@ public class PerfTest extends BaseModel<PerfTest> {
 		this.useFixedRateRPS = useFixedRateRPS;
 	}
 
-	public Integer getRps() {
+	public Double getRps() {
 		return rps;
 	}
 
-	public void setRps(Integer rps) {
+	public void setRps(Double rps) {
 		this.rps = rps;
 	}
 

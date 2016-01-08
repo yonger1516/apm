@@ -55,8 +55,6 @@ public class TestController extends BaseController{
 	@Autowired
 	ApiTestConfigService configService;
 
-	@Autowired
-	RunConfigService runConfigService;
 
 	@Autowired
 	ProjectService projectService;
@@ -111,31 +109,6 @@ public class TestController extends BaseController{
 	@RequestMapping(value = "/start",method = RequestMethod.GET)
 	public String testRunning(long id,RunSourceEnum source,long commitId,ModelMap map){
 		ApiTestRun run=new ApiTestRun();
-		ApiRunTestConfig runConfig=new ApiRunTestConfig();
-
-		/*if (RunSourceEnum.PROJECT.equals(source)){
-			Project project=projectService.getProjectById(id);
-			run.setProject(project);
-			run.setSource(RunSourceEnum.PROJECT);
-			runConfig.cloneTestConfig(project.getApiTestConfig());
-
-		}else if(RunSourceEnum.API.equals(source)){
-			API api=apiService.findById(id);
-			run.setApi(api);
-			run.setSource(RunSourceEnum.API);
-			runConfig.cloneTestConfig(api.getApiTestConfig());
-		}*/
-
-		/*runConfig=runConfigService.save(runConfig);
-		run.setRunConfig(runConfig);
-		run.setCommit(commitService.findById(commitId));
-
-		TestReport report=reportService.save(new TestReport());
-		run.setReport(report);
-		//run.setStatus(Status.READY);
-		run.setCreatedUser(getCurrentUser());
-		run.setLastModifiedUser(getCurrentUser());*/
-		//run= perfTestService.save(run);
 
 		return "redirect:/test/details?runId="+run.getId();
 	}

@@ -31,7 +31,6 @@ import net.grinder.messages.console.AgentAddress;
 import net.grinder.util.LogCompressUtils;
 import net.grinder.util.NetworkUtils;
 import net.grinder.util.thread.Condition;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.ngrinder.common.constants.AgentConstants;
@@ -49,7 +48,7 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static org.ngrinder.common.constants.InternalConstants.PROP_INTERNAL_NGRINDER_VERSION;
+import static org.ngrinder.common.constants.InternalConstants.PROP_INTERNAL_APM_VERSION;
 import static org.ngrinder.common.util.NoOp.noOp;
 import static org.ngrinder.common.util.Preconditions.checkNotNull;
 
@@ -96,7 +95,7 @@ public class AgentController implements Agent, AgentConstants {
 		this.m_eventSyncCondition = eventSyncCondition;
 
 		this.agentConfig = agentConfig;
-		this.version = agentConfig.getInternalProperties().getProperty(PROP_INTERNAL_NGRINDER_VERSION);
+		this.version = agentConfig.getInternalProperties().getProperty(PROP_INTERNAL_APM_VERSION);
 		this.m_agentControllerServerListener = new AgentControllerServerListener(m_eventSynchronization, LOGGER);
 		// Set it with the default name
 		this.m_agentIdentity = new AgentControllerIdentityImplementation(agentConfig.getAgentHostID(), NetworkUtils.DEFAULT_LOCAL_HOST_ADDRESS);

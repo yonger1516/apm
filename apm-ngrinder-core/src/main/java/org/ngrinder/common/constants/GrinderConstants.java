@@ -45,4 +45,7 @@ public interface GrinderConstants {
 	public static final String GRINDER_PROP_ETC_HOSTS = "ngrinder.etc.hosts";
 	public static final String DEFAULT_GRINDER_PROPERTIES = "grinder.properties";
 
+	public static final String GRINDER_PROP_FIXED_RPS_RATE ="grinder.fixedRpsRate";
+
+
 }

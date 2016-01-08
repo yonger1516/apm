@@ -205,7 +205,7 @@
 										<#if !(test.createdUser??) || test.createdUser.userId != currentUser.factualUser.userId>
 											<#assign disabled = "disabled">
 										</#if>
-										<button type="submit" class="btn btn-success" id="save_test_btn" style="width:55px" ${disabled!}>
+										<!--<button type="submit" class="btn btn-success" id="save_test_btn" style="width:55px" ${disabled!}>
 											<#if isClone>
 												<@spring.message "perfTest.action.clone"/>
 											<#else>
@@ -214,7 +214,7 @@
 										</button>
 										<button type="button" class="btn btn-primary" style="width:116px" id="save_schedule_btn" ${disabled!}>
 											<#if isClone><@spring.message "perfTest.action.clone"/><#else><@spring.message "common.button.save"/></#if>&nbsp;<@spring.message "perfTest.action.andStart"/>
-										</button>
+										</button>-->
 									</div>
 								</div>
 							</div>

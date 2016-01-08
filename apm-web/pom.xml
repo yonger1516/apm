@@ -122,6 +122,11 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>com.enniu.qa</groupId>
+            <artifactId>apm-ngrinder-sh</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>commons-collections</groupId>

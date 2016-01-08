@@ -48,7 +48,6 @@ com/enniu/qa/ptm/model/ProcessAndThread.class
 com/enniu/qa/ptm/service/listener/AgentLostDetectionListener.class
 com/enniu/qa/ptm/service/AgentPackageService$3.class
 com/enniu/qa/ptm/service/ApiTestRunService.class
-com/enniu/qa/ptm/model/ApiRunTestConfig.class
 com/enniu/qa/ptm/util/CommonUtils.class
 com/enniu/qa/ptm/model/ProjectType.class
 com/enniu/qa/ptm/dao/PerfTestSpecification2$1.class
@@ -96,7 +95,6 @@ com/enniu/qa/ptm/spring/RemainedPath.class
 com/enniu/qa/ptm/model/ExtendPerfTest.class
 com/enniu/qa/ptm/configuration/ApplicationConfigurations.class
 com/enniu/qa/ptm/service/PeriodicWorkingAgentCheckService$1.class
-com/enniu/qa/ptm/dao/ApiRunTestConfigDao.class
 com/enniu/qa/ptm/service/ConsoleManager.class
 com/enniu/qa/ptm/service/PerfTestRunnable$3.class
 com/enniu/qa/ptm/model/FileType.class
@@ -140,7 +138,6 @@ com/enniu/qa/ptm/spring/ApiExceptionHandlerResolver.class
 com/enniu/qa/ptm/dto/ProjectOverallDTO.class
 com/enniu/qa/ptm/controller/PerfTestController$1.class
 com/enniu/qa/ptm/dao/PerfTestSpecification.class
-com/enniu/qa/ptm/service/RunConfigService.class
 com/enniu/qa/ptm/dao/PerfTestSpecification$3.class
 com/enniu/qa/ptm/configuration/ClassPathTldsLoader.class
 com/enniu/qa/ptm/service/AgentManagerService.class

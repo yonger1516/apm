@@ -31,7 +31,7 @@ public class ProjectService {
     }
 
     public Project getProjectById(long id) {
-        return dao.getOne(id);
+        return dao.findById(id);
     }
 
     public void removeProject(long id) {

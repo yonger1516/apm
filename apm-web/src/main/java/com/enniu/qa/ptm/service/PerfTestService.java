@@ -648,6 +648,11 @@ public class PerfTestService extends AbstractPerfTestService implements Controll
 			} else {
 				grinderProperties.setInt(GRINDER_PROP_PROCESS_INCREMENT, 0);
 			}
+
+
+			if(BooleanUtils.isTrue(perfTest.getUseFixedRateRPS())){
+				grinderProperties.setDouble(GRINDER_PROP_FIXED_RPS_RATE,perfTest.getRps());
+			}
 			grinderProperties.setInt(GRINDER_PROP_REPORT_TO_CONSOLE, 500);
 			grinderProperties.setProperty(GRINDER_PROP_USER, perfTest.getCreatedUser().getUserId());
 			grinderProperties.setProperty(GRINDER_PROP_JVM_CLASSPATH, getCustomClassPath(perfTest));

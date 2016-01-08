@@ -44,6 +44,10 @@ public class AgentPackageService {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(AgentPackageService.class);
 	public static final int EXEC = 0x81ed;
 	private static final int TIME_MILLIS_OF_DAY = 1000 * 60 * 60 * 24;
+	private static final String MODULE_SHELL ="apm-ngrinder-sh";
+	private static final String MODULE_CORE ="apm-ngrinder-core";
+	private static final String MODULE_RUNTIME ="apm-ngrinder-runtime";
+	private static final String MODULE_GROOVY ="apm-ngrinder-groovy";
 
 	@Autowired
 	private Config config;
@@ -172,7 +176,7 @@ public class AgentPackageService {
 					if (!isJar(eachClassPath)) {
 						continue;
 					}
-					if (isAgentDependentLib(eachClassPath, "ngrinder-sh")) {
+					if (isAgentDependentLib(eachClassPath, MODULE_SHELL)) {
 						processJarEntries(eachClassPath, new TarArchivingZipEntryProcessor(tarOutputStream, new FilePredicate() {
 							@Override
 							public boolean evaluate(Object object) {
@@ -234,7 +238,7 @@ public class AgentPackageService {
 					if (!isJar(eachClassPath)) {
 						continue;
 					}
-					if (isAgentDependentLib(eachClassPath, "ngrinder-sh")) {
+					if (isAgentDependentLib(eachClassPath, MODULE_SHELL)) {
 						processJarEntries(eachClassPath, new TarArchivingZipEntryProcessor(tarOutputStream, new FilePredicate() {
 							@Override
 							public boolean evaluate(Object object) {
@@ -310,9 +314,10 @@ public class AgentPackageService {
 			for (String each : StringUtils.split(dependencies, ";")) {
 				libs.add(FilenameUtils.getBaseName(each.trim()).replace("-SNAPSHOT", ""));
 			}
-			libs.add(getPackageName("ngrinder-core").replace("-SNAPSHOT", ""));
-			libs.add(getPackageName("ngrinder-runtime").replace("-SNAPSHOT", ""));
-			libs.add(getPackageName("ngrinder-groovy").replace("-SNAPSHOT", ""));
+			libs.add(getPackageName(MODULE_CORE).replace("-SNAPSHOT", ""));
+			libs.add(getPackageName(MODULE_RUNTIME).replace("-SNAPSHOT", ""));
+			libs.add(getPackageName(MODULE_GROOVY).replace("-SNAPSHOT", ""));
+			//libs.add(getPackageName(MODULE_SHELL).replace("-SNAPSHOT", ""));
 		} catch (Exception e) {
 			IOUtils.closeQuietly(dependencyStream);
 			LOGGER.error("Error while loading dependencies.txt", e);
