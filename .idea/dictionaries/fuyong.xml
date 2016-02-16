@@ -1,3 +1,9 @@
 <component name="ProjectDictionaryState">
-  <dictionary name="fuyong" />
+  <dictionary name="fuyong">
+    <words>
+      <w>aync</w>
+      <w>perf</w>
+      <w>perfhttpclient</w>
+    </words>
+  </dictionary>
 </component>

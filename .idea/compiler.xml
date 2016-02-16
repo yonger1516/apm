@@ -22,6 +22,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="apm-httpclient" />
         <module name="apm-ngrinder-core" />
         <module name="apm-ngrinder-groovy" />
         <module name="apm-ngrinder-runtime" />
@@ -32,6 +33,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
       <module name="apm" target="1.6" />
+      <module name="apm-httpclient" target="1.6" />
       <module name="apm-ngrinder-core" target="1.6" />
       <module name="apm-ngrinder-groovy" target="1.6" />
       <module name="apm-ngrinder-runtime" target="1.6" />

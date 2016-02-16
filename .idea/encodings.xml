@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/apm-httpclient" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apm-ngrinder-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apm-ngrinder-groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apm-ngrinder-runtime" charset="UTF-8" />

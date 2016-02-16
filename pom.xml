@@ -26,6 +26,7 @@
         <module>apm-ngrinder-runtime</module>
         <module>apm-ngrinder-sh</module>
         <module>apm-ngrinder-starter</module>
+        <module>apm-httpclient</module>
     </modules>
 
     <properties>
@@ -127,7 +128,7 @@
         <dependency>
             <groupId>net.sf.grinder</groupId>
             <artifactId>grinder</artifactId>
-            <version>3.12-SNAPSHOT</version>
+            <version>3.9.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>clojure</artifactId>
@@ -188,6 +189,25 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.squareup.retrofit</groupId>
+            <artifactId>retrofit</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.ning</groupId>
+            <artifactId>async-http-client</artifactId>
+            <version>1.9.31</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/apm.iml" filepath="$PROJECT_DIR$/apm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apm-httpclient/apm-httpclient.iml" filepath="$PROJECT_DIR$/apm-httpclient/apm-httpclient.iml" />
       <module fileurl="file://$PROJECT_DIR$/apm-ngrinder-core/apm-ngrinder-core.iml" filepath="$PROJECT_DIR$/apm-ngrinder-core/apm-ngrinder-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/apm-ngrinder-groovy/apm-ngrinder-groovy.iml" filepath="$PROJECT_DIR$/apm-ngrinder-groovy/apm-ngrinder-groovy.iml" />
       <module fileurl="file://$PROJECT_DIR$/apm-ngrinder-runtime/apm-ngrinder-runtime.iml" filepath="$PROJECT_DIR$/apm-ngrinder-runtime/apm-ngrinder-runtime.iml" />
