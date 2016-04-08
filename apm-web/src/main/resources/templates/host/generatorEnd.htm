@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<#include "../module/header.htm"/>
+
+<body>
+
+<div class="container">
+    <#include "../module/navigation.htm"/>
+
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="breadcrumb">
+                <li><a href="#"> Management</a><span class="divider"></span></li>
+                <li class="active">Generator-End</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Generator Nodes
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    Actions
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a href="/manage/newGNode">Add New Node</a>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.panel-heading -->
+
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-nodes">
+
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>IP</th>
+                                    <th>Status</th>
+                                    <th>Create Time</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <#list nodes as node>
+                                <tr>
+                                    <td>${(node.name)!}</td>
+                                    <td>
+                                        ${(node.type)!}
+                                    </td>
+                                    <td>${(node.ip)!}</td>
+                                    <td>${(node.status)!}</td>
+                                    <td>${(node.createTime)!}</td>
+                                    <td><a href="/deleteNode.htm?id=${node.id}"
+                                           class="btn btn-primary btn-circle btn-xs active fa fa-times"
+                                           role="button"></a>
+                                        <a href="/editNode.htm?id=${node.id}"
+                                           class="btn btn-primary btn-circle btn-xs active fa fa-edit"
+                                           role="button"></a>
+
+                                    </td>
+                                </tr>
+                                </#list>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+
+
+        </div>
+
+    </div>
+
+</div>
+<!-- /#wrapper -->
+
+<#include "../module/footer.htm"/>
+<!-- DataTables JavaScript -->
+<script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+<script>
+        $(document).ready(function() {
+            $('#dataTables-nodes').DataTable({
+                    responsive: true
+            });
+        });
+
+
+</script>
+
+</body>
+
+</html>

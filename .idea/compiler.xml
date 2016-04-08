@@ -28,6 +28,8 @@
         <module name="apm-ngrinder-runtime" />
         <module name="apm-ngrinder-sh" />
         <module name="apm-ngrinder-starter" />
+        <module name="apm-pinpoint" />
+        <module name="apm-rc" />
         <module name="apm-web" />
       </profile>
     </annotationProcessing>
@@ -37,8 +39,10 @@
       <module name="apm-ngrinder-core" target="1.6" />
       <module name="apm-ngrinder-groovy" target="1.6" />
       <module name="apm-ngrinder-runtime" target="1.6" />
-      <module name="apm-ngrinder-sh" target="1.6" />
+      <module name="apm-ngrinder-sh" target="1.5" />
       <module name="apm-ngrinder-starter" target="1.6" />
+      <module name="apm-pinpoint" target="1.6" />
+      <module name="apm-rc" target="1.6" />
       <module name="apm-web" target="1.6" />
     </bytecodeTargetLevel>
   </component>

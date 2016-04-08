@@ -1,7 +1,9 @@
 package net.grinder.message.console;
 
+import org.ngrinder.model.GrinderAgentInfo;
+
 /**
- * Agent Status. This enum describes all necessary step and status which {@link org.ngrinder.model.AgentInfo}
+ * Agent Status. This enum describes all necessary step and status which {@link GrinderAgentInfo}
  * can be in.
  *
  * @author Matt

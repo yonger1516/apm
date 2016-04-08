@@ -15,7 +15,7 @@ package org.ngrinder.service;
 
 import net.grinder.engine.controller.AgentControllerIdentityImplementation;
 import org.apache.commons.lang.mutable.MutableInt;
-import org.ngrinder.model.AgentInfo;
+import org.ngrinder.model.GrinderAgentInfo;
 import org.ngrinder.model.User;
 import org.ngrinder.monitor.controller.model.SystemDataModel;
 
@@ -46,7 +46,7 @@ public interface IAgentManagerService {
 	 *
 	 * @return agent list
 	 */
-	public abstract List<AgentInfo> getAllLocal();
+	public abstract List<GrinderAgentInfo> getAllLocal();
 
 	/**
 	 * Get all local agent agents. The agent list is obtained by combining the data from
@@ -55,15 +55,15 @@ public interface IAgentManagerService {
 	 * @return agent list
 	 */
 	@SuppressWarnings("UnusedDeclaration")
-	public abstract List<AgentInfo> getAllLocalWithFullInfo();
+	public abstract List<GrinderAgentInfo> getAllLocalWithFullInfo();
 
 	/**
 	 * Create the agent key from the given agent info.
 	 *
-	 * @param agentInfo agent information
+	 * @param grinderAgentInfo agent information
 	 * @return agent key
 	 */
-	public abstract String createKey(AgentInfo agentInfo);
+	public abstract String createKey(GrinderAgentInfo grinderAgentInfo);
 
 	/**
 	 * Create the agent key from the given agent identity.
@@ -87,7 +87,7 @@ public interface IAgentManagerService {
 	 *
 	 * @return agent list
 	 */
-	public abstract List<AgentInfo> getAllActive();
+	public abstract List<GrinderAgentInfo> getAllActive();
 
 
 	/**
@@ -97,14 +97,14 @@ public interface IAgentManagerService {
 	 * @deprecated Use IAgentManagerService#getAllLocal
 	 */
 	@SuppressWarnings("UnusedDeclaration")
-	public abstract List<AgentInfo> getLocalAgents();
+	public abstract List<GrinderAgentInfo> getLocalAgents();
 
 	/**
 	 * Get all visible agents from DB.
 	 *
 	 * @return agent list
 	 */
-	public abstract List<AgentInfo> getAllVisible();
+	public abstract List<GrinderAgentInfo> getAllVisible();
 
 	/**
 	 * Get the agent for the given id without agent identity info. If it's called from the other controller, only
@@ -113,7 +113,7 @@ public interface IAgentManagerService {
 	 * @param id agent id
 	 * @return agent
 	 */
-	public abstract AgentInfo getOne(Long id);
+	public abstract GrinderAgentInfo getOne(Long id);
 
 	/**
 	 * Get the agent for the given id. If it's called from the other controller, only
@@ -123,7 +123,7 @@ public interface IAgentManagerService {
 	 * @param includeAgentIdentity include agent identity field.
 	 * @return agent
 	 */
-	public abstract AgentInfo getOne(Long id, boolean includeAgentIdentity);
+	public abstract GrinderAgentInfo getOne(Long id, boolean includeAgentIdentity);
 
 	/**
 	 * Get the agent system data model for the given ip. This method is cluster

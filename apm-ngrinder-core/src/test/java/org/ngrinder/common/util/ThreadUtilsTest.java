@@ -15,8 +15,7 @@ package org.ngrinder.common.util;
 
 import org.apache.commons.lang.time.StopWatch;
 import org.junit.Test;
-
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.Assertions.*;
 
 /**
  * Thread Util Unit Test.

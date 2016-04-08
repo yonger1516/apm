@@ -17,8 +17,8 @@ public class PerfHttpClientWrapper {
 	}
 
 	public Response execute(Method method, Request request){
-
-		return httpClient.execute(new PerfHttpRequest());
+		return null;
+		//return httpClient.execute();
 	}
 
 }

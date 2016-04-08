@@ -1,0 +1,1 @@
+insert into nuser(password,role_name,user_id,user_name) values("$2a$10$.x1a22pJyAUujqyFVqiOHuay.uRVNNmj5jmiZr6RdTakww2ieWph6","ADMIN","001","admin");

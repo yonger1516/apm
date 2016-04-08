@@ -9,6 +9,8 @@
       <module fileurl="file://$PROJECT_DIR$/apm-ngrinder-runtime/apm-ngrinder-runtime.iml" filepath="$PROJECT_DIR$/apm-ngrinder-runtime/apm-ngrinder-runtime.iml" />
       <module fileurl="file://$PROJECT_DIR$/apm-ngrinder-sh/apm-ngrinder-sh.iml" filepath="$PROJECT_DIR$/apm-ngrinder-sh/apm-ngrinder-sh.iml" />
       <module fileurl="file://$PROJECT_DIR$/apm-ngrinder-starter/apm-ngrinder-starter.iml" filepath="$PROJECT_DIR$/apm-ngrinder-starter/apm-ngrinder-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apm-pinpoint/apm-pinpoint.iml" filepath="$PROJECT_DIR$/apm-pinpoint/apm-pinpoint.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apm-rc/apm-rc.iml" filepath="$PROJECT_DIR$/apm-rc/apm-rc.iml" />
       <module fileurl="file://$PROJECT_DIR$/apm-web/apm-web.iml" filepath="$PROJECT_DIR$/apm-web/apm-web.iml" />
     </modules>
   </component>

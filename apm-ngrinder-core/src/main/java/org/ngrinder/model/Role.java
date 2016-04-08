@@ -57,7 +57,7 @@ public enum Role {
 		}
 	},
 	/**
-	 * Super user role who can set system settings and manage user account.
+	 * Super user role who can set system settings and host user account.
 	 */
 	SUPER_USER("S", "Super User") {
 

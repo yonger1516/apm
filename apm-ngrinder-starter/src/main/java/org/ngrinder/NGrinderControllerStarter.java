@@ -13,11 +13,11 @@
  */
 package org.ngrinder;
 
-import com.beust.jcommander.*;
+import com.beust.jcommander.*;/*
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
-import org.mortbay.jetty.webapp.WebAppContext;
+import org.mortbay.jetty.webapp.WebAppContext;*/
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -208,7 +208,7 @@ public class NGrinderControllerStarter {
 	}
 
 
-	private void run() {
+	/*private void run() {
 		Server server = new Server();
 		SocketConnector connector = new SocketConnector();
 		// Set some timeout options to make debugging easier.
@@ -243,7 +243,7 @@ public class NGrinderControllerStarter {
 			ex.printStackTrace();
 			System.exit(-1);
 		}
-	}
+	}*/
 
 	private static String getWarName() {
 		ProtectionDomain protectionDomain = NGrinderControllerStarter.class.getProtectionDomain();
@@ -304,7 +304,7 @@ public class NGrinderControllerStarter {
 		final ClusterMode clusterMode = ClusterMode.valueOf(server.clusterMode);
 		clusterMode.parseArgs(unknownOptions.toArray(new String[unknownOptions.size()]));
 		System.getProperties().putAll(server.params);
-		server.run();
+		//server.run();
 	}
 
 	private static String getRunningCommand() {

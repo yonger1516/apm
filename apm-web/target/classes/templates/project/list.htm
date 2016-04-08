@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<#include "../module/header.htm"/>
+
+<body>
+
+<div class="container">
+    <#include "../module/navigation.htm"/>
+
+    <div class="row">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <ul class="breadcrumb">
+                    <li><a href="#">Project</a> <span class="divider"></span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+
+                        <i class="fa fa-list fa-fw"></i> Project List
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    Actions
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a href="/project/new">Add New Project</a>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.panel-heading -->
+
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-projects">
+
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Avg RT</th>
+                                    <th>Sdt.Dev</th>
+                                    <th>Avg Apdex</th>
+                                    <th>Avg TPS</th>
+                                    <th>Last Commit</th>
+                                    <th>Last Commit Date</th>
+                                    <th>APIs</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <#list projects as project>
+                                <tr>
+                                    <td>${(project.id)!}</td>
+                                    <td>
+                                        <a href="/project/${project.id}/details">
+                                            ${(project.name)!}
+                                        </a>
+                                    </td>
+                                    <td>${(project.type)!}</td>
+                                    <td>${(project.getAvgRT())!0}</td>
+                                    <td>${project.getSdtDev()!0}</td>
+                                    <td>${(project.getAvgApdex())!0}</td>
+                                    <td>${(project.getAvgTPS())!0}</td>
+                                    <td>${(project.commitId)!0}</td>
+                                    <td>${(project.lastCommitDate)?date}</td>
+                                    <td>${(project.apiNum)!0}</td>
+                                    <td>
+                                        <a onclick="deleteProject(${project.id})" title="Delete project">
+                                            <button type="button" class="btn btn-default btn-circle"><span
+                                                    class="glyphicon glyphicon-trash"></span></button>
+                                        </a>
+                                        <a href="/project/${project.id}/edit" title="Edit project">
+                                            <button type="button" class="btn btn-default btn-circle"><span
+                                                    class="glyphicon glyphicon-edit"></span></button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </#list>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+
+
+        </div>
+
+
+</div>
+<!-- /#wrapper -->
+
+
+<#include "../module/footer.htm"/>
+<!-- DataTables JavaScript -->
+<script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('#dataTables-projects').DataTable({
+                    responsive: true,
+                    "order":[[0,"desc"]]
+            });
+        });
+
+        function deleteProject(id){
+            if (confirm("Are you sure to delete this project?")){
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/project/"+id,
+                    data: {},
+                    dateType: 'json',
+                }).done(function(data){
+                    if(data.success){
+                        alert("delete successful");
+                        location.reload();
+                     } else{
+                         alert("failed");
+                     }
+                });
+            }
+        }
+
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -13,7 +13,7 @@
  */
 package org.ngrinder.service;
 
-import org.ngrinder.model.AgentInfo;
+import org.ngrinder.model.GrinderAgentInfo;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public abstract class AbstractAgentManagerService implements IAgentManagerServic
 
 
 	@SuppressWarnings("UnusedDeclaration")
-	public List<AgentInfo> getLocalAgents() {
+	public List<GrinderAgentInfo> getLocalAgents() {
 		return getAllLocal();
 	}
 }

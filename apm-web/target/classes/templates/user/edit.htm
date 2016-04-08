@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<#include "../module/header.htm"/>
+
+<body>
+
+<div class="container">
+    <#include "../module/navigation.htm"/>
+
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/project.htm">Projects</a> <span class="divider"></span>
+                </li>
+
+                <li class="active">Edit Project</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body">
+
+                    <form class="form-horizontal" action="/user/do_edit" method="post">
+                        <input type="hidden" id="id" name="id" value="${(user.id)!0}">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">User Name</label>
+
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="name" name="name" value="${(user.name)!}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label">Password</label>
+
+                            <div class="col-sm-2">
+
+                                <input class="form-control" type="text" id="password" name="password" value="${(user.password)!}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="enabled" class="col-sm-2 control-label">Enabled</label>
+
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="enabled" name="enabled" value="${(user.enabled)!}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="email" name="email"
+                                       value="${(user.email)!}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" id="description" name="description"
+                                       value="${(user.description)!}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="role" class="col-sm-2 control-label">Role</label>
+
+                            <div class="col-sm-2">
+                                <select class="form-control" id="role" name="role">
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="USER">USER</option>
+                                    <option value="GENERAL">GENERAL</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="btn_edit" class="col-sm-2 control-label"></label>
+
+                            <div class="col-sm-2">
+                                <button id="btn_edit" type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- /#wrapper -->
+
+<#include "../module/footer.htm"/>
+
+
+<script type="text/javascript">
+
+    function selectCheck(id,value)
+    {
+
+        var select = document.getElementById(id);
+
+        var options = select.options;
+
+        for(var i=0;i<options.length;i++)
+        {
+
+          if (options[i].value == value)
+          {
+           options[i].selected = true;
+           break;
+          }
+        }
+     }
+
+
+    $(function(){
+        selectCheck("role","${user.role}");
+    });
+
+
+    $(document).ready(function(){
+
+        var projectUpdate=function(){
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/project/do_edit",
+                        data: {"id":$("#id").val(),
+                        "name":$("#name").val(),
+                        "desc":$("#desc").val(),
+                        "type":$("#type option:selected").val()
+                        },
+                        dateType: 'json',
+                    }).done(function(data){
+                        if(data.success){
+                            alert("edit successful");
+                            window.location='/project/';
+                         } else{
+                             alert("failed");
+                         }
+                    });
+                    return false;
+
+        };
+
+         $("#btn_save").on("click", function (e) {
+             e.preventDefault();
+             projectUpdate();
+         });
+
+
+    });
+
+
+</script>
+
+</body>
+
+</html>

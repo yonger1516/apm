@@ -1,0 +1,43 @@
+<div class="modal hide fade" id="create_folder_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h4>create folder</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal form-horizontal-4" method="post" target="_self" id="createFolderForm"
+              action="${req.getContextPath()}/script/new/${currentPath}">
+            <fieldset>
+
+                <input type="hidden" name="type" value="folder"/>
+
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" id="create_folder_button">create</button>
+        <button class="btn" data-dismiss="modal">cancel</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input[rel='create_folder_modal_popover']").popover({trigger: 'focus', container:'#create_folder_modal'});
+		$("#create_folder_button").click(function() {
+			var $name = $("#folder_name");
+			if (checkEmptyByObj($name)) {
+				markInput($name, false, "validate format");
+				return;
+			} else {
+				if (!checkSimpleNameByObj($name)) {
+					markInput($name, false, "validate format");
+					return;
+				}
+				markInput($name, true);
+			}
+			document.forms.createFolderForm.submit();
+		});
+	});
+
+</script>

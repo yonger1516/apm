@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<#include "../module/header.htm"/>
+<#include "/common/ngrinder_macros.htm"/>
+<body>
+
+    <div class="container">
+        <#include "../module/navigation.htm"/>
+            <div class="row">
+                <div class="navbar">
+                     <div class="navbar-inner">
+                         <ul class="breadcrumb">
+                             <li>
+                                 <a href="/project">Projects</a> <span class="divider"></span>
+                             </li>
+                             <li>
+                                 <a href="/project/${project.id}/details">${(project.name)!"null"}</a> <span class="divider"></span>
+                             </li>
+                             <li>
+                                 <a href="/project/${project.id}/api/${api.id}">${api.name}</a> <span class="divider"></span>
+                             </li>
+                             <li class="active">Edit</li>
+                         </ul>
+
+                     </div>
+                </div>
+            </div>
+
+
+                <div class="row">
+
+
+                            <form class="form-horizontal" action="/project/${project.id}/api/${api.id}/edit" method="post">
+                                <@form_group2 name="name" label_message_key="Api Name" lable_extra_class="col-md-2" controls_extra_class="col-md-4">
+                                <@input2 name="name" value="${(api.name)!}"/>
+                                </@form_group2>
+
+                                <@form_group2 name="description" label_message_key="Description" lable_extra_class="col-md-2" controls_extra_class="col-md-4">
+                                <@input2 name="description" value="${(api.description)!}"/>
+                                </@form_group2>
+
+
+                                <@form_group2 name="path" label_message_key="Path" lable_extra_class="col-md-2" controls_extra_class="col-md-4">
+                                <@input2 name="path" value="${(api.path)!}"/>
+                                </@form_group2>
+
+                                 <@form_group2 name="status" label_message_key="Status" lable_extra_class="col-md-2" controls_extra_class="col-md-1">
+                                    <@input2 name="status" value="${(api.status)!0}"/>
+                                 </@form_group2>
+
+                                           <div class="form-group">
+                                                <div class="col-sm-2">
+                                                    <button id="submit" type="submit" style="margin-left:10px" class="btn btn-primary">Save</button>
+                                                </div>
+                                           </div>
+                            </form>
+
+                </div>
+                <!-- /.row -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <#include "../module/footer.htm"/>
+
+
+</body>
+
+</html>
