@@ -11,7 +11,7 @@ import org.springframework.boot.orm.jpa.EntityScan;
  */
 
 @SpringBootApplication
-@EntityScan(basePackages = {"org.ngrinder.model","com.enniu.qa.apm"})
+@EntityScan(basePackages = {"org.ngrinder.model","com.iyonger.apm"})
 public class PtmWebMain {
 
     public static void main(String[] args) {

@@ -38,7 +38,7 @@ import java.util.Date;
 @Service
 public class ModelAspect {
 
-	public static final String EXECUTION_SAVE = "execution(* com.enniu.qa.apm.service.*Service.save*(..))";
+	public static final String EXECUTION_SAVE = "execution(* com.iyonger.apm.service.*Service.save*(..))";
 
 	@Autowired
 	private UserContext userContext;

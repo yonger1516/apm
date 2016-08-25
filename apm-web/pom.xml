@@ -26,7 +26,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.enniu.qa</groupId>
+            <groupId>com.iyonger</groupId>
             <artifactId>apm-ngrinder-core</artifactId>
             <version>${project.version}</version>
             <exclusions>
@@ -54,12 +54,12 @@
         </dependency>
 
         <dependency>
-            <groupId>com.enniu.qa</groupId>
+            <groupId>com.iyonger</groupId>
             <artifactId>apm-ngrinder-sh</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.enniu.qa</groupId>
+            <groupId>com.iyonger</groupId>
             <artifactId>apm-remotecontrol</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

@@ -13,12 +13,12 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.35" level="project" />
-    <orderEntry type="module" module-name="apm-ngrinder-core" />
+    <orderEntry type="library" name="Maven: com.enniu.qa:apm-ngrinder-core:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: dnsjava:dnsjava:2.1.1" level="project" />
     <orderEntry type="library" name="Maven: sigar:sigar-native:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.python:jython-standalone:2.5.3" level="project" />
-    <orderEntry type="module" module-name="apm-ngrinder-runtime" />
-    <orderEntry type="module" module-name="apm-ngrinder-groovy" />
+    <orderEntry type="library" name="Maven: com.enniu.qa:apm-ngrinder-runtime:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.enniu.qa:apm-ngrinder-groovy:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.3.11" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:3.4.0" level="project" />
@@ -27,8 +27,8 @@
     <orderEntry type="library" name="Maven: com.beust:jcommander:1.32" level="project" />
     <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-all:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.fusesource:sigar:1.6.4" level="project" />
-    <orderEntry type="module" module-name="apm-ngrinder-sh" />
-    <orderEntry type="module" module-name="apm-rc" />
+    <orderEntry type="library" name="Maven: com.enniu.qa:apm-ngrinder-sh:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.enniu.qa:apm-remotecontrol:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: ch.ethz.ganymed:ganymed-ssh2:build210" level="project" />
     <orderEntry type="library" name="Maven: com.jcraft:jsch:0.1.49" level="project" />
     <orderEntry type="library" name="Maven: net.schmizz:sshj:0.9.0" level="project" />
